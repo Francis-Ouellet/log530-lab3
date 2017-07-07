@@ -1,0 +1,68 @@
+{
+  "name": "hobbycartes",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest",
+    "lint": "eslint 'App/**/*.js'",
+    "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clean",
+    "clear": "rm -rf $TMPDIR/react-* && watchman watch-del-all && rm -rf ios/build/ModuleCache/* && rm -rf node_modules/ && npm cache verify && npm i",
+    "tron": "node_modules/.bin/reactotron",
+    "android:build": "cd android && ./gradlew assembleRelease",
+    "android:install": "cd android && ./gradlew assembleRelease && ./gradlew installRelease",
+    "android:devices": "$ANDROID_HOME/platform-tools/adb devices",
+    "android:logcat": "$ANDROID_HOME/platform-tools/adb logcat *:S ReactNative:V ReactNativeJS:V",
+    "android:shake": "$ANDROID_HOME/platform-tools/adb devices | grep '\\t' | awk '{print $1}' | sed 's/\\s//g' | xargs -I {} $ANDROID_HOME/platform-tools/adb -s {} shell input keyevent 82",
+    "ios:run:iphone7": "react-native run-ios --simulator \"iPhone 7\"",
+    "android:run": "react-native run-android",
+    "fix-lint": "eslint --fix App/**/*.js",
+    "precommit": "if [ -d 'ignite-base' ]; then cd ignite-base; fi; npm run lint"
+  },
+  "dependencies": {
+    "react": "^16.0.0-alpha.12",
+    "react-native": "^0.46.0",
+    "react-navigation": "latest",
+    "react-native-vector-icons": "latest",
+    "react-redux": "latest",
+    "redux": "^3.7.1",
+    "redux-logger": "latest"
+  },
+  "devDependencies": {
+    "babel-core": "latest",
+    "babel-cli": "latest",
+    "babel-jest": "latest",
+    "babel-eslint": "latest",
+    "babel-preset-es2015": "latest",
+    "babel-preset-react-native": "latest",
+    "eslint": "latest",
+    "flow-bin": "latest",
+    "eslint-config-google": "latest",
+    "eslint-plugin-react": "latest",
+    "eslint-plugin-flowtype": "latest",
+    "eslint-plugin-flowtype-errors": "latest",
+    "husky": "latest",
+    "jest": "latest",
+    "react-test-renderer": "^16.0.0-alpha.12",
+    "reactotron": "^0.9.0",
+    "reactotron-react-native": "latest",
+    "reactotron-redux": "latest",
+    "redux-mock-store": "latest"
+  },
+  "jest": {
+    "preset": "react-native",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "App/**/*.{js,jsx}",
+      "!App/Config/**",
+      "!node_modules/**"
+    ],
+    "testPathIgnorePatterns": [
+      "node_modules",
+      "App/Config/"
+    ],
+    "globals": {
+      "__TEST__": true
+    }
+  }
+}

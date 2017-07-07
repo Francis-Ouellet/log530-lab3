@@ -1,0 +1,3 @@
+rootProject.name = 'HobbyCartes'
+
+include ':app'
