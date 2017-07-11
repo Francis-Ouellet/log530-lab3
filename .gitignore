@@ -82,3 +82,7 @@ android/keystores/debug.keystore
 .vscode/
 tsconfig.json
 typings/
+
+# AWS
+awsdeploysettings.json
+Api/packaged-template.yaml
