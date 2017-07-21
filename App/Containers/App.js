@@ -2,23 +2,21 @@
 import React, {Component} from 'react';  // eslint-disable-line
 import {
   AppRegistry,
-  Text,
-  View,
   Platform
 } from 'react-native';
 import {StackNavigator} from 'react-navigation';
 
-class HobbyCartes extends Component {
-  static navigationOptions = {
-    title: 'Fil des cartes'
-  };
+import {CardsContainer} from '.';
 
+/**
+ * First component of the application. Initalization of Redux and such go here.
+ *
+ * @class HobbyCartes
+ * @extends {Component}
+ */
+class HobbyCartes extends Component {
   render() {
-    return (
-      <View>
-        <Text>Hello, world!</Text>
-      </View>
-    );
+    return <CardsContainer />;
   }
 }
 
