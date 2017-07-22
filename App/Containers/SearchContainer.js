@@ -5,14 +5,14 @@ import {
   StatusBar
 } from 'react-native';
 
-import {CardsComponent} from '../Components';
+import {SearchComponent} from '../Components';
 
-export default class CardsContainer extends Component {
+export default class SearchContainer extends Component {
   render() {
     return (
       <View>
         <StatusBar barStyle="light-content" />
-        <CardsComponent />
+        <SearchComponent />
       </View>
     );
   }
