@@ -7,6 +7,7 @@ import {
 import {StackNavigator} from 'react-navigation';
 
 import {CardsContainer} from '.';
+import {iconsLoaded} from '../Themes';
 
 /**
  * First component of the application. Initalization of Redux and such go here.
@@ -14,18 +15,18 @@ import {CardsContainer} from '.';
  * @class HobbyCartes
  * @extends {Component}
  */
-class HobbyCartes extends Component {
-  render() {
-    return <CardsContainer />;
-  }
-}
+// class HobbyCartes extends Component {
+//   render() {
+//     return <CardsContainer />;
+//   }
+// }
 
 // Navigation is done here
 let navigator;
 
 if (Platform.OS === 'ios') {
   navigator = StackNavigator({
-    Home: {screen: HobbyCartes}
+    Home: {screen: CardsContainer}
   });
 } else {  // Android
   navigator = StackNavigator();
@@ -39,7 +40,7 @@ if (Platform.OS === 'ios') {
  */
 class Runner {
   constructor() {
-    AppRegistry.registerComponent('HobbyCartes', () => navigator);
+    iconsLoaded.then(() => AppRegistry.registerComponent('HobbyCartes', () => navigator));
   }
 }
 
