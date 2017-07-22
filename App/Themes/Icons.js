@@ -11,7 +11,8 @@ const icons = {
   'group': [30, Colors.snow],
   'user-check': [30, Colors.snow, MaterialDesignIcon],
   'assignment': [30, Colors.snow],
-  'more-horiz': [30, Colors.snow]
+  'more-horiz': [30, Colors.snow],
+  'account-circle': [30, Colors.snow, MaterialDesignIcon]
 };
 
 const defaultIconProvider = MDIcon;
