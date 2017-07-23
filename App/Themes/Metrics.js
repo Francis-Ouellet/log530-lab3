@@ -30,7 +30,8 @@ const metrics = {
     medium: 40,
     large: 60,
     logo: 300
-  }
+  },
+  baseListItemHeight: 75
 };
 
 export default metrics;
