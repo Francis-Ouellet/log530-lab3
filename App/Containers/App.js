@@ -94,6 +94,7 @@ if (Platform.OS === 'ios') {
 class Runner {
   constructor() {
     iconsLoaded.then(() => AppRegistry.registerComponent('HobbyCartes', () => navigator));
+    // AppRegistry.registerComponent('HobbyCartes', () => navigator);
   }
 }
 
