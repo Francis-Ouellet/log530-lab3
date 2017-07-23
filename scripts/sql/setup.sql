@@ -16,9 +16,10 @@ CREATE TABLE membre(
     nomUtilisateur  VARCHAR(100) NOT NULL,
     courriel        VARCHAR(100) NOT NULL,
     motDePasse      VARCHAR(100) NOT NULL,
-    lienPhotoProfil VARCHAR(100),
-    dateInscription DATE NOT NULL,
-    admin           BOOLEAN DEFAULT FALSE           
+    lienPhotoProfil VARCHAR(300),
+    dateInscription DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    admin           BOOLEAN DEFAULT FALSE,
+    CONSTRAINT UC_membre UNIQUE (nomUtilisateur, courriel)
 );
 
 CREATE TABLE adresse(
@@ -38,7 +39,7 @@ CREATE TABLE message(
     idDestinateur   INTEGER NOT NULL,
     idDestinataire  INTEGER NOT NULL,
     objet           VARCHAR(200) NOT NULL,
-    message         BLOB NOT NULL,
+    message         TEXT NOT NULL,
     estCommunique   BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (idDestinateur) REFERENCES membre(idMembre) ON DELETE CASCADE,
     FOREIGN KEY (idDestinataire) REFERENCES membre(idMembre) ON DELETE CASCADE
@@ -53,7 +54,7 @@ CREATE TABLE collection(
 
 CREATE TABLE editeur(
     idEditeur       INTEGER PRIMARY KEY AUTO_INCREMENT,
-    nom             VARCHAR(100)
+    nom             VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE joueur(
@@ -64,7 +65,7 @@ CREATE TABLE joueur(
 
 CREATE TABLE equipe(
     idEquipe        INTEGER PRIMARY KEY AUTO_INCREMENT,
-    nom             VARCHAR(100)
+    nom             VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE saison(
@@ -87,8 +88,8 @@ CREATE TABLE fiche(
     datePublication DATE,
     valeur          FLOAT(15,2),
     etat            ENUM('impeccable', 'bonne', 'moyenne', 'passable', 'pietre'),
-    lienImageDevant VARCHAR(100),
-    lienImageDerriere   VARCHAR(100),
+    lienImageDevant VARCHAR(300),
+    lienImageDerriere   VARCHAR(300),
     FOREIGN KEY (idCollection) REFERENCES collection(idCollection) ON DELETE CASCADE,
     FOREIGN KEY (idEditeur) REFERENCES editeur(idEditeur) ON DELETE CASCADE,
     FOREIGN KEY (idSaison) REFERENCES saison(idSaison) ON DELETE CASCADE
@@ -98,7 +99,7 @@ CREATE TABLE commentaire(
     idCommentaire   INTEGER PRIMARY KEY AUTO_INCREMENT,
     idMembre        INTEGER NOT NULL,
     idFiche         INTEGER NOT NULL,
-    message         BLOB,
+    message         TEXT NOT NULL,
     FOREIGN KEY (idMembre) REFERENCES membre(idMembre) ON DELETE CASCADE,
     FOREIGN KEY (idFiche) REFERENCES fiche(idFiche) ON DELETE CASCADE
 );
