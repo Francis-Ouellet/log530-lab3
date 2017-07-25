@@ -19,7 +19,8 @@ CREATE TABLE membre(
     lienPhotoProfil VARCHAR(300),
     dateInscription DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     admin           BOOLEAN DEFAULT FALSE,
-    CONSTRAINT UC_membre UNIQUE (nomUtilisateur, courriel)
+    UNIQUE KEY(nomUtilisateur),
+    UNIQUE KEY(courriel)
 );
 
 CREATE TABLE adresse(
