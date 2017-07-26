@@ -24,11 +24,13 @@
   "dependencies": {
     "react": "^16.0.0-alpha.12",
     "react-native": "^0.46.0",
-    "react-navigation": "latest",
     "react-native-vector-icons": "latest",
+    "react-navigation": "latest",
     "react-redux": "latest",
     "redux": "^3.7.1",
-    "redux-logger": "latest"
+    "redux-logger": "latest",
+    "redux-observable": "^0.14.1",
+    "rxjs": "^5.4.2"
   },
   "devDependencies": {
     "babel-core": "latest",
