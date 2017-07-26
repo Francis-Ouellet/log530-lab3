@@ -66,6 +66,7 @@ project.xcworkspace
 .idea
 .gradle
 local.properties
+android/app/src/main/assets
 
 # node.js
 #
