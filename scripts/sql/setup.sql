@@ -17,7 +17,7 @@ CREATE TABLE membre(
     courriel        VARCHAR(100) NOT NULL,
     motDePasse      VARCHAR(100) NOT NULL,
     lienPhotoProfil VARCHAR(300),
-    dateInscription DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    dateInscription DATETIME NOT NULL DEFAULT NOW(),
     admin           BOOLEAN DEFAULT FALSE,
     UNIQUE KEY(nomUtilisateur),
     UNIQUE KEY(courriel)
@@ -36,7 +36,7 @@ CREATE TABLE adresse(
 );
 
 CREATE TABLE message(
-    idCommentaire   INTEGER PRIMARY KEY AUTO_INCREMENT,
+    idMessage       INTEGER PRIMARY KEY AUTO_INCREMENT,
     idDestinateur   INTEGER NOT NULL,
     idDestinataire  INTEGER NOT NULL,
     objet           VARCHAR(200) NOT NULL,
