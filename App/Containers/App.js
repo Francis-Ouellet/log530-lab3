@@ -7,14 +7,20 @@ import {
   Platform,
   StyleSheet
 } from 'react-native';
-import {StackNavigator, NavigationNavigator} from 'react-navigation';
+import {StackNavigator, NavigationNavigator, addNavigationHelpers} from 'react-navigation';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
+import {connect, Provider} from 'react-redux';
 
+import applyConfigSettings from '../Config';
+import createStore from '../Redux';
 import {
   CardsContainer,
   SearchContainer
 } from '.';
-import {iconsLoaded, Colors} from '../Themes';
+import {Colors} from '../Themes';
+
+// Apply app settings
+applyConfigSettings();
 
 const NavigationStyle = StyleSheet.create({
   profileButton: {
@@ -41,10 +47,10 @@ function CloseButton(props: Object) {
 }
 
 // Navigation is done here
-let navigator;
+let RootNavigator;
 
 if (Platform.OS === 'ios') {
-  navigator = StackNavigator({
+  RootNavigator = StackNavigator({
     Cards: {
       screen: CardsContainer,
       navigationOptions: ({navigation}: {navigation: NavigationNavigator}) => {
@@ -82,7 +88,40 @@ if (Platform.OS === 'ios') {
     mode: 'modal'
   });
 } else {  // Android
-  navigator = StackNavigator();
+  RootNavigator = StackNavigator();
+}
+
+function navigationReducer(state: Object, action: Object) {
+  const newState = RootNavigator.router.getStateForAction(action, state);
+  return newState || state;
+}
+
+// create the Redux store
+const [store] = createStore(navigationReducer);
+export {store};
+
+class RootContainer extends Component {
+  render() {
+    return (
+      <RootNavigator navigation={addNavigationHelpers({
+        dispatch: this.props.dispatch,
+        state: this.props.nav
+      })} />
+    );
+  }
+}
+RootContainer = connect((state: Object) => ({
+  nav: state.nav
+}))(RootContainer);
+
+class AppContainer extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <RootContainer />
+      </Provider>
+    );
+  }
 }
 
 /**
@@ -93,15 +132,14 @@ if (Platform.OS === 'ios') {
  */
 class Runner {
   constructor() {
-    iconsLoaded.then(() => AppRegistry.registerComponent('HobbyCartes', () => navigator));
-    // AppRegistry.registerComponent('HobbyCartes', () => navigator);
+    AppRegistry.registerComponent('HobbyCartes', () => AppContainer);
   }
 }
 
 let App;
 
 if (global.__TEST__) {  // __TEST__ is defined in package.json
-  App = navigator;
+  App = AppContainer;
 } else {
   App = Runner;
 }
