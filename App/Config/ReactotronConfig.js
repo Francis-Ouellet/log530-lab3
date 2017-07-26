@@ -7,8 +7,9 @@ if (__DEV__) {
   Reactotron
     .configure({
       // host: '10.0.3.2' // default is localhost (on android don't forget to `adb reverse tcp:9090 tcp:9090`)
-      name: 'WorkflowGen' // would you like to see your app's name?
+      name: 'HobbyCartes' // would you like to see your app's name?
     })
+    .useReactNative()
 
     // forward all errors to Reactotron
     .use(errorPlugin({
