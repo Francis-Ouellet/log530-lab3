@@ -10,6 +10,10 @@ import {
   searchEpic
 } from './Search';
 import {
+  GETTING_USER_PROFIL, fetchingMemberProfile,
+  UPDATING_USER_PROFIL, editingMemberProfile
+} from './Profile';
+import {
   clearMembers, CLEAR_MEMBERS,
   clearCards, CLEAR_CARDS
 } from './Clear';
@@ -30,6 +34,8 @@ export {
   RECEIVED_RESPONSE, receivedResponse,
   RECEIVED_ERROR, receivedError,
   SEARCH, search, searchEpic,
+  GETTING_USER_PROFIL, fetchingMemberProfile,
+  UPDATING_USER_PROFIL, editingMemberProfile,
   CLEAR_MEMBERS, clearMembers,
   CLEAR_CARDS, clearCards,
   GET_CARDS_BY_CATEGORY, getCardsByCategory, getCardsByCategoryEpic,

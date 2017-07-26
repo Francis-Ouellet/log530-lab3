@@ -24,6 +24,7 @@ class ProfileContainer extends Component {
       <View>
         <StatusBar barStyle="light-content" />
         <ProfileComponent/>
+        <ProfileComponent  member={this.props.member}/>
       </View>
     );
   }
