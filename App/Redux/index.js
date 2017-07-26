@@ -7,7 +7,9 @@ import {Member} from '../Models';
 
 import {
   isFetching,
-  members
+  members,
+  showMember,
+  editMember
 } from './Reducers';
 
 import {
@@ -17,7 +19,8 @@ import {
 export type ReduxStateType = {
   isFetching: boolean,
   nav: Object,
-  members: Member[]
+  members: Member[],
+  actualMember: Member
 };
 
 export default (navigationReducer: Object) => {
@@ -25,7 +28,8 @@ export default (navigationReducer: Object) => {
   const rootReducer = combineReducers({
     nav: navigationReducer,
     isFetching,
-    members
+    members,
+    actualMember: showMember
   });
 
   const rootEpic = combineEpics(

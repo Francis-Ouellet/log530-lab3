@@ -1,8 +1,10 @@
 // @flow
 import {isFetching} from './Fetching';
-import {members} from './Members';
+import {members, showMember, editMember} from './Members';
 
 export {
   isFetching,
-  members
+  members,
+  showMember,
+  editMember
 };
