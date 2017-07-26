@@ -3,18 +3,9 @@
 const exec = require('child_process').exec;
 const awsdeploysettings = require('../awsdeploysettings.json');
 
-const uploadToS3Command = `aws cloudformation package \\
---template-file Api/template.yaml \\
---s3-bucket ${awsdeploysettings.bucketname} \\
---output-template-file Api/packaged-template.yaml \\
---force-upload
-`;
+const uploadToS3Command = `aws cloudformation package --template-file Api/template.yaml --s3-bucket ${awsdeploysettings.bucketname} --output-template-file Api/packaged-template.yaml --force-upload`;
 
-const deployCommand = `aws cloudformation deploy \\
---template-file Api/packaged-template.yaml \\
---stack-name hobbycartes-api \\
---capabilities CAPABILITY_IAM
-`;
+const deployCommand = `aws cloudformation deploy --template-file Api/packaged-template.yaml --stack-name hobbycartes-api --parameter-overrides VPCSecurityGroupIds=${awsdeploysettings.VPCSecurityGroupIds} VPCSubnetIds="${awsdeploysettings.VPCSubnetIds}" --capabilities CAPABILITY_IAM`;
 
 exec(uploadToS3Command, (error, stdout, stderr) => {
   if (error) {

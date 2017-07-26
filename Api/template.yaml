@@ -1,16 +1,410 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: HobbyCartes serverless API on AWS.
+Parameters:
+  VPCSecurityGroupIds:
+    Description: Liste des groupes de securites separer par des virgules
+    Type: CommaDelimitedList
+  VPCSubnetIds:
+    Description: Liste des subnets separer par des virgules
+    Type: CommaDelimitedList
 Resources:
-  GetFunction:
+  VPCLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      Path: "/"
+      Policies:
+        -
+          PolicyName: "VPCLambdaPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              -
+                Effect: "Allow"
+                Action:
+                  - "ec2:CreateNetworkInterface"
+                  - "ec2:DescribeNetworkInterfaces"
+                  - "ec2:DetachNetworkInterface"
+                  - "ec2:DeleteNetworkInterface"
+                Resource: "*"
+              -
+                Effect: "Allow"
+                Action:
+                  - "logs:CreateLogGroup"
+                  - "logs:CreateLogStream"
+                  - "logs:PutLogEvents"
+                Resource: "arn:aws:logs:*:*:*"
+  GetMembers:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: index.get
+      Handler: index.getMembers
       Runtime: nodejs6.10
       CodeUri: ./
       Events:
         GetResource:
           Type: Api
           Properties:
-            Path: /
+            Path: /members
             Method: get
+      Role:
+        Fn::GetAtt:
+           - "VPCLambdaRole"
+           - "Arn"
+  GetMember:
+      Type: AWS::Serverless::Function
+      DependsOn: VPCLambdaRole
+      Properties:
+        Handler: index.getMember
+        Runtime: nodejs6.10
+        CodeUri: ./
+        Events:
+          GetResource:
+            Type: Api
+            Properties:
+              Path: /members/{id}
+              Method: get
+        Role:
+          Fn::GetAtt:
+            - "VPCLambdaRole"
+            - "Arn"
+  GetCollections:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.getCollections
+      Runtime: nodejs6.10
+      CodeUri: ./
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /collections
+            Method: get
+      Role:
+        Fn::GetAtt:
+           - "VPCLambdaRole"
+           - "Arn"
+  GetCollection:
+      Type: AWS::Serverless::Function
+      DependsOn: VPCLambdaRole
+      Properties:
+        Handler: index.getCollection
+        Runtime: nodejs6.10
+        CodeUri: ./
+        Events:
+          GetResource:
+            Type: Api
+            Properties:
+              Path: /collections/{id}
+              Method: get
+        Role:
+          Fn::GetAtt:
+            - "VPCLambdaRole"
+            - "Arn"
+  GetAddresses:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.getAddresses
+      Runtime: nodejs6.10
+      CodeUri: ./
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /addresses
+            Method: get
+      Role:
+        Fn::GetAtt:
+           - "VPCLambdaRole"
+           - "Arn"
+  GetAddress:
+      Type: AWS::Serverless::Function
+      DependsOn: VPCLambdaRole
+      Properties:
+        Handler: index.getAddress
+        Runtime: nodejs6.10
+        CodeUri: ./
+        Events:
+          GetResource:
+            Type: Api
+            Properties:
+              Path: /addresses/{id}
+              Method: get
+        Role:
+          Fn::GetAtt:
+            - "VPCLambdaRole"
+            - "Arn"
+  GetComments:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.getComments
+      Runtime: nodejs6.10
+      CodeUri: ./
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /comments
+            Method: get
+      Role:
+        Fn::GetAtt:
+           - "VPCLambdaRole"
+           - "Arn"
+  GetComment:
+      Type: AWS::Serverless::Function
+      DependsOn: VPCLambdaRole
+      Properties:
+        Handler: index.getComment
+        Runtime: nodejs6.10
+        CodeUri: ./
+        Events:
+          GetResource:
+            Type: Api
+            Properties:
+              Path: /comments/{id}
+              Method: get
+        Role:
+          Fn::GetAtt:
+            - "VPCLambdaRole"
+            - "Arn"
+  GetEditors:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.getEditors
+      Runtime: nodejs6.10
+      CodeUri: ./
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /editors
+            Method: get
+      Role:
+        Fn::GetAtt:
+           - "VPCLambdaRole"
+           - "Arn"
+  GetEditor:
+      Type: AWS::Serverless::Function
+      DependsOn: VPCLambdaRole
+      Properties:
+        Handler: index.getEditor
+        Runtime: nodejs6.10
+        CodeUri: ./
+        Events:
+          GetResource:
+            Type: Api
+            Properties:
+              Path: /editors/{id}
+              Method: get
+        Role:
+          Fn::GetAtt:
+            - "VPCLambdaRole"
+            - "Arn"
+  GetCardIndexes:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.getCardIndexes
+      Runtime: nodejs6.10
+      CodeUri: ./
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /cardIndexes
+            Method: get
+      Role:
+        Fn::GetAtt:
+           - "VPCLambdaRole"
+           - "Arn"
+  GetCardIndex:
+      Type: AWS::Serverless::Function
+      DependsOn: VPCLambdaRole
+      Properties:
+        Handler: index.getCardIndex
+        Runtime: nodejs6.10
+        CodeUri: ./
+        Events:
+          GetResource:
+            Type: Api
+            Properties:
+              Path: /cardIndexes/{id}
+              Method: get
+        Role:
+          Fn::GetAtt:
+            - "VPCLambdaRole"
+            - "Arn"
+  GetTeams:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.getTeams
+      Runtime: nodejs6.10
+      CodeUri: ./
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /teams
+            Method: get
+      Role:
+        Fn::GetAtt:
+           - "VPCLambdaRole"
+           - "Arn"
+  GetTeam:
+      Type: AWS::Serverless::Function
+      DependsOn: VPCLambdaRole
+      Properties:
+        Handler: index.getTeam
+        Runtime: nodejs6.10
+        CodeUri: ./
+        Events:
+          GetResource:
+            Type: Api
+            Properties:
+              Path: /teams/{id}
+              Method: get
+        Role:
+          Fn::GetAtt:
+            - "VPCLambdaRole"
+            - "Arn"
+  GetPlayers:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.getPlayers
+      Runtime: nodejs6.10
+      CodeUri: ./
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /players
+            Method: get
+      Role:
+        Fn::GetAtt:
+           - "VPCLambdaRole"
+           - "Arn"
+  GetPlayer:
+      Type: AWS::Serverless::Function
+      DependsOn: VPCLambdaRole
+      Properties:
+        Handler: index.getPlayer
+        Runtime: nodejs6.10
+        CodeUri: ./
+        Events:
+          GetResource:
+            Type: Api
+            Properties:
+              Path: /players/{id}
+              Method: get
+        Role:
+          Fn::GetAtt:
+            - "VPCLambdaRole"
+            - "Arn"
+  GetMessages:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.getMessages
+      Runtime: nodejs6.10
+      CodeUri: ./
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /messages
+            Method: get
+      Role:
+        Fn::GetAtt:
+           - "VPCLambdaRole"
+           - "Arn"
+  GetMessage:
+      Type: AWS::Serverless::Function
+      DependsOn: VPCLambdaRole
+      Properties:
+        Handler: index.getMessage
+        Runtime: nodejs6.10
+        CodeUri: ./
+        Events:
+          GetResource:
+            Type: Api
+            Properties:
+              Path: /messages/{id}
+              Method: get
+        Role:
+          Fn::GetAtt:
+            - "VPCLambdaRole"
+            - "Arn"
+  GetSeasons:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.getSeasons
+      Runtime: nodejs6.10
+      CodeUri: ./
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /seasons
+            Method: get
+      Role:
+        Fn::GetAtt:
+           - "VPCLambdaRole"
+           - "Arn"
+  GetSeason:
+      Type: AWS::Serverless::Function
+      DependsOn: VPCLambdaRole
+      Properties:
+        Handler: index.getSeason
+        Runtime: nodejs6.10
+        CodeUri: ./
+        Events:
+          GetResource:
+            Type: Api
+            Properties:
+              Path: /seasons/{id}
+              Method: get
+        Role:
+          Fn::GetAtt:
+            - "VPCLambdaRole"
+            - "Arn"
+  Login:
+      Type: AWS::Serverless::Function
+      DependsOn: VPCLambdaRole
+      Properties:
+        Handler: index.login
+        Runtime: nodejs6.10
+        CodeUri: ./
+        Events:
+          GetResource:
+            Type: Api
+            Properties:
+              Path: /login
+              Method: post
+        Role:
+          Fn::GetAtt:
+            - "VPCLambdaRole"
+            - "Arn"
+  SignUp:
+      Type: AWS::Serverless::Function
+      DependsOn: VPCLambdaRole
+      Properties:
+        Handler: index.signUp
+        Runtime: nodejs6.10
+        CodeUri: ./
+        Events:
+          GetResource:
+            Type: Api
+            Properties:
+              Path: /signUp
+              Method: post
+        Role:
+          Fn::GetAtt:
+            - "VPCLambdaRole"
+            - "Arn"
