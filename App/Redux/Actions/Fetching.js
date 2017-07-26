@@ -10,7 +10,7 @@ export function fetchingFromServer(): {type: string} {
   };
 }
 
-export function receivedResponse(data: Object): {type: string, data: Object} {
+export function receivedResponse(data: any): {type: string, data: Object} {
   return {
     type: RECEIVED_RESPONSE,
     data

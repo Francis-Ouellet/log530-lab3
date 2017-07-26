@@ -1,10 +1,11 @@
 // @flow
 import {createStore, applyMiddleware, compose} from 'redux';
 import {createLogger} from 'redux-logger';
+import {createEpicMiddleware} from 'redux-observable';
 import Config from '../Config/DebugSettings';
 
 // creates the store
-export default (rootReducer: any) => {
+export default (rootReducer: any, rootEpic: any) => {
   /* ------------- Redux Configuration ------------- */
 
   const middleware = [];
@@ -22,6 +23,11 @@ export default (rootReducer: any) => {
     });
     middleware.push(logger);
   }
+
+  /* ------------- Redux Observable ------------- */
+
+  const epicMiddleware = createEpicMiddleware(rootEpic);
+  middleware.push(epicMiddleware);
 
   /* ------------- Assemble Middleware ------------- */
 

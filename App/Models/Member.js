@@ -7,16 +7,15 @@
  * @class Member
  */
 export default class Member {
-  name: string;
-  surname: string;
-  username: string;
-  password: string;
-  city: string;
-  email: string;
-  registerDate: Date;
+  prenom: string;
+  nom: string;
+  nomUtilisateur: string;
+  motDePasse: string;
+  courriel: string;
+  dateInscription: Date;
   postalCode: string;
-  profilePhotoURL: string;
-  isAdmin: boolean;
+  lienPhotoProfil: string;
+  estAdmin: boolean;
 
   /**
    * Creates an instance of Member.
@@ -29,15 +28,13 @@ export default class Member {
       throw new TypeError('initObj of Member is not an object. It should be.');
     }
 
-    this.name = initObj.name;
-    this.surname = initObj.surname;
-    this.username = initObj.username;
-    this.password = initObj.password;
-    this.city = initObj.city;
-    this.email = initObj.email;
-    this.registerDate = initObj.registerDate;
-    this.postalCode = initObj.postalCode;
-    this.profilePhotoURL = initObj.profilePhotoURL;
-    this.isAdmin = initObj.isAdmin;
+    this.prenom = initObj.prenom;
+    this.nom = initObj.nom;
+    this.nomUtilisateur = initObj.nomUtilisateur;
+    this.motDePasse = initObj.motDePasse;
+    this.courriel = initObj.courriel;
+    this.dateInscription = initObj.dateInscription;
+    this.lienPhotoProfil = initObj.lienPhotoProfil;
+    this.estAdmin = initObj.admin;
   }
 }
