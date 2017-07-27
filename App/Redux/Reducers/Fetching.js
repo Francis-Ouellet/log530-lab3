@@ -6,7 +6,7 @@ import {
 } from '../Actions';
 
 export function isFetching(state: boolean = false, action: {type: string}): boolean {
-  switch(state) {
+  switch(action.type) {
     case FETCHING_FROM_SERVER:
       return true;
 

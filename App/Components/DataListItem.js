@@ -32,15 +32,15 @@ export default class DataListItem extends Component {
     lowerRightText: PropTypes.string
   };
 
-  // shouldComponentUpdate(newProps: PropsType): boolean {
-  //   return this.props.image !== newProps.image ||
-  //     this.props.upperLeftText !== newProps.upperLeftText ||
-  //     this.props.centerLeftText !== newProps.centerLeftText ||
-  //     this.props.lowerLeftText !== newProps.lowerLeftText ||
-  //     this.props.upperRightText !== newProps.upperRightText ||
-  //     this.props.centerRightText !== newProps.centerRightText ||
-  //     this.props.lowerRightText !== newProps.lowerRightText;
-  // }
+  shouldComponentUpdate(newProps: PropsType): boolean {
+    return this.props.image !== newProps.image ||
+      this.props.upperLeftText !== newProps.upperLeftText ||
+      this.props.centerLeftText !== newProps.centerLeftText ||
+      this.props.lowerLeftText !== newProps.lowerLeftText ||
+      this.props.upperRightText !== newProps.upperRightText ||
+      this.props.centerRightText !== newProps.centerRightText ||
+      this.props.lowerRightText !== newProps.lowerRightText;
+  }
 
   render() {
     const {
