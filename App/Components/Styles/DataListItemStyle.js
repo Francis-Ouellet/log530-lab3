@@ -23,6 +23,8 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   image: {
+    borderColor: 'lightgray',
+    borderWidth: 1,
     width: IMAGE_DIM,
     height: IMAGE_DIM
   },

@@ -9,7 +9,6 @@ import {
   isFetching,
   members
 } from './Reducers';
-
 import {
   searchEpic
 } from './Actions';

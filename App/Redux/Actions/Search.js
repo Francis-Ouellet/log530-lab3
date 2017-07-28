@@ -21,7 +21,11 @@ export function searchEpic(action: Object) {
   return action.ofType(SEARCH)
     .switchMap((action: Object) => {
       const members = MEMBERS
-        .filter((member: Object) => member.prenom.includes(action.term) || member.nom.includes(action.term))
+        .filter((member: Object) =>
+          member.prenom.includes(action.term) ||
+          member.nom.includes(action.term) ||
+          member.nomUtilisateur.includes(action.term)
+        )
         .map((member: Object) => new Member(member));
 
       return Rx.Observable.of(fetchingFromServer())

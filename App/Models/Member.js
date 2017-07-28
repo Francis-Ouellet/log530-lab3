@@ -1,5 +1,7 @@
 // @flow
 
+const DEFAULT_USER_IMAGE_URL = 'http://www.datastax.com/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png';
+
 /**
  * Represents a member of the domain.
  *
@@ -33,8 +35,8 @@ export default class Member {
     this.nomUtilisateur = initObj.nomUtilisateur;
     this.motDePasse = initObj.motDePasse;
     this.courriel = initObj.courriel;
-    this.dateInscription = initObj.dateInscription;
-    this.lienPhotoProfil = initObj.lienPhotoProfil;
+    this.dateInscription = new Date(initObj.dateInscription);
+    this.lienPhotoProfil = initObj.lienPhotoProfil || DEFAULT_USER_IMAGE_URL;
     this.estAdmin = initObj.admin;
   }
 }

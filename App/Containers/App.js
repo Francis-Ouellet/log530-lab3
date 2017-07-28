@@ -5,7 +5,8 @@ import {
   Button,
   AppRegistry,
   Platform,
-  StyleSheet
+  StyleSheet,
+  TextInput
 } from 'react-native';
 import {StackNavigator, NavigationNavigator, addNavigationHelpers} from 'react-navigation';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
@@ -34,6 +35,14 @@ const NavigationStyle = StyleSheet.create({
   },
   headerTitle: {
     color: Colors.snow
+  },
+  searchTextInput: {
+    backgroundColor: Colors.ember,
+    padding: 5,
+    height: 30,
+    width: 200,
+    borderRadius: 7,
+    textAlign: 'center'
   }
 });
 const TITLES = {
@@ -74,7 +83,16 @@ if (Platform.OS === 'ios') {
       screen: SearchContainer,
       navigationOptions: ({navigation}: {navigation: NavigationNavigator}) => {
         return {
-          title: TITLES.search,
+          headerTitle: (
+            <TextInput
+              onChangeText={(text: string) => navigation.setParams({searchText: text})}
+              autoCorrect={false}
+              autoCapitalize="none"
+              returnKeyType="search"
+              selectTextOnFocus={true}
+              style={NavigationStyle.searchTextInput}
+              placeholder="Rechercher" />
+          ),
           headerLeft: <CloseButton navigation={navigation} />
         };
       }

@@ -16,8 +16,22 @@ type PropsType = {
   lowerLeftText?: ?string,
   upperRightText?: ?string,
   centerRightText?: ?string,
-  lowerRightText?: ?string
+  lowerRightText?: ?string,
+  upperLeftTextStyle?: Object,
+  centerLeftTextStyle?: Object,
+  lowerLeftTextStyle?: Object,
+  upperRightTextStyle?: Object,
+  centerRightTextStyle?: Object,
+  lowerRightTextStyle?: Object
 };
+
+function SingleLineText(props: Object) {
+  const {children} = props;
+  delete props.children;
+  delete props.numberOfLines;
+
+  return <Text numberOfLines={1} {...props}>{children}</Text>;
+}
 
 export default class DataListItem extends Component {
   props: PropsType;
@@ -29,7 +43,13 @@ export default class DataListItem extends Component {
     lowerLeftText: PropTypes.string,
     upperRightText: PropTypes.string,
     centerRightText: PropTypes.string,
-    lowerRightText: PropTypes.string
+    lowerRightText: PropTypes.string,
+    upperLeftTextStyle: PropTypes.object,
+    centerLeftTextStyle: PropTypes.object,
+    lowerLeftTextStyle: PropTypes.object,
+    upperRightTextStyle: PropTypes.object,
+    centerRightTextStyle: PropTypes.object,
+    lowerRightTextStyle: PropTypes.object
   };
 
   shouldComponentUpdate(newProps: PropsType): boolean {
@@ -50,35 +70,44 @@ export default class DataListItem extends Component {
       centerLeftText,
       centerRightText,
       lowerLeftText,
-      lowerRightText
+      lowerRightText,
+      upperLeftTextStyle = {},
+      upperRightTextStyle = {},
+      centerLeftTextStyle = {},
+      centerRightTextStyle = {},
+      lowerLeftTextStyle = {},
+      lowerRightTextStyle = {}
     } = this.props;
 
     return (
       <View style={{flexDirection: 'column'}}>
         <View style={DataListItemStyle.baseView}>
           <View style={DataListItemStyle.leftView}>
-            {image && <Image source={{uri: image}} style={DataListItemStyle.image} />}
+            {image && <Image
+                        source={{uri: image}}
+                        resizeMode="stretch"
+                        style={DataListItemStyle.image} />}
             <View style={DataListItemStyle.leftTextView}>
               <View style={DataListItemStyle.leftTextRowView}>
-                {upperLeftText && <Text>{upperLeftText}</Text>}
+                {upperLeftText && <SingleLineText style={upperLeftTextStyle}>{upperLeftText}</SingleLineText>}
               </View>
               <View style={DataListItemStyle.leftTextRowView}>
-                {centerLeftText && <Text>{centerLeftText}</Text>}
+                {centerLeftText && <SingleLineText style={centerLeftTextStyle}>{centerLeftText}</SingleLineText>}
               </View>
               <View style={DataListItemStyle.leftTextRowView}>
-                {lowerLeftText && <Text>{lowerLeftText}</Text>}
+                {lowerLeftText && <SingleLineText style={lowerLeftTextStyle}>{lowerLeftText}</SingleLineText>}
               </View>
             </View>
           </View>
           <View style={DataListItemStyle.rightView}>
             <View style={DataListItemStyle.rightTextRowView}>
-              {upperRightText && <Text>{upperRightText}</Text>}
+              {upperRightText && <SingleLineText style={upperRightTextStyle}>{upperRightText}</SingleLineText>}
             </View>
             <View style={DataListItemStyle.rightTextRowView}>
-              {centerRightText && <Text>{centerRightText}</Text>}
+              {centerRightText && <SingleLineText style={centerRightTextStyle}>{centerRightText}</SingleLineText>}
             </View>
             <View style={DataListItemStyle.rightTextRowView}>
-              {lowerRightText && <Text>{lowerRightText}</Text>}
+              {lowerRightText && <SingleLineText style={lowerRightTextStyle}>{lowerRightText}</SingleLineText>}
             </View>
           </View>
         </View>
