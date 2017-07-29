@@ -9,6 +9,7 @@ const DEFAULT_USER_IMAGE_URL = 'http://www.datastax.com/wp-content/plugins/all-i
  * @class Member
  */
 export default class Member {
+  idMembre: number;
   prenom: string;
   nom: string;
   nomUtilisateur: string;
@@ -30,6 +31,7 @@ export default class Member {
       throw new TypeError('initObj of Member is not an object. It should be.');
     }
 
+    this.idMembre = initObj.idMembre;
     this.prenom = initObj.prenom;
     this.nom = initObj.nom;
     this.nomUtilisateur = initObj.nomUtilisateur;

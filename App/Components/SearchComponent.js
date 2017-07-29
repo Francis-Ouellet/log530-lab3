@@ -9,12 +9,13 @@ import {
 
 import {DataListItem} from '.';
 import {SearchComponentStyle} from './Styles';
-import {Member} from '../Models';
+import {Member, Card} from '../Models';
 
 import type {ReduxStateType} from '../Redux';
 
 type PropsType = {
-  members: $PropertyType<ReduxStateType, 'members'>
+  members: $PropertyType<ReduxStateType, 'members'>,
+  cards: $PropertyType<ReduxStateType, 'cards'>
 };
 
 type StateType = {
@@ -29,7 +30,8 @@ export default class SearchComponent extends Component {
   _renderHeader: Function;
 
   static propTypes = {
-    members: PropTypes.arrayOf(PropTypes.instanceOf(Member))
+    members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
+    cards: PropTypes.arrayOf(PropTypes.instanceOf(Card))
   };
 
   constructor(props: PropsType) {
@@ -45,26 +47,33 @@ export default class SearchComponent extends Component {
 
     this.state = {
       dataSource: dataSource.cloneWithRowsAndSections({
-        Membres: props.members
+        Membres: props.members,
+        Cartes: props.cards
       })
     };
   }
 
   shouldComponentUpdate(newProps: PropsType): boolean {
-    return newProps.members !== this.props.members;
+    return newProps.members !== this.props.members ||
+      newProps.cards !== this.props.cards;
   }
 
   componentWillReceiveProps(newProps: PropsType) {
-    let {members} = this.props;
+    let {members, cards} = this.props;
     const {dataSource} = this.state;
 
     if (members !== newProps.members) {
       members = newProps.members;
     }
 
+    if (cards !== newProps.cards) {
+      cards = newProps.cards;
+    }
+
     this.setState({
       dataSource: dataSource.cloneWithRowsAndSections({
-        Membres: members
+        Membres: members,
+        Cartes: cards
       })
     });
   }
@@ -86,16 +95,16 @@ export default class SearchComponent extends Component {
   }
 
   _renderHeader() {
-    const nbItems = this.props.members.length;
+    const nbItems = this.props.members.length + this.props.cards.length;
 
     return (
       <View style={SearchComponentStyle.headerView}>
-        <Text style={SearchComponentStyle.headerText}>{nbItems} {nbItems > 0 ? 'éléments' : 'élément'}</Text>
+        <Text style={SearchComponentStyle.headerText}>{nbItems} {nbItems > 1 ? 'éléments' : 'élément'}</Text>
       </View>
     );
   }
 
-  _renderSectionHeader(sectionData: Member, sectionName: string) {
+  _renderSectionHeader(sectionData: Member | Card, sectionName: string) {
     return (
       <View style={SearchComponentStyle.sectionHeaderView}>
         <Text>{sectionName}</Text>
@@ -103,12 +112,25 @@ export default class SearchComponent extends Component {
     );
   }
 
-  _renderRow(dataItem: Member) {
-    return <DataListItem
-            upperLeftText={dataItem.prenom + ' ' + dataItem.nom}
-            centerLeftText={dataItem.nomUtilisateur}
-            lowerLeftText="100 cartes"
-            lowerRightText={'Depuis ' + dataItem.dateInscription.toISOString()}
-            image={dataItem.lienPhotoProfil} />;
+  _renderRow(dataItem: Member | Card) {
+    let listItem;
+
+    if (dataItem instanceof Member) {
+      listItem = <DataListItem
+                  upperLeftText={dataItem.prenom + ' ' + dataItem.nom}
+                  centerLeftText={dataItem.nomUtilisateur}
+                  lowerLeftText="100 cartes"
+                  lowerRightText={'Depuis ' + dataItem.dateInscription.toISOString()}
+                  image={dataItem.lienPhotoProfil} />;
+    } else if (dataItem instanceof Card) {
+      listItem = <DataListItem
+                  image={dataItem.lienImageDevant}
+                  upperLeftText={dataItem.joueur.prenom + ' ' + dataItem.joueur.nom}
+                  centerLeftText={dataItem.editeur.nom}
+                  lowerLeftText={`${dataItem.valeur}`}
+                  upperRightText={`${dataItem.annee}`} />;
+    }
+
+    return listItem;
   }
 }

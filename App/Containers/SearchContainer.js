@@ -17,7 +17,8 @@ declare function searchMembersAndCards(term: string): any;
 type PropsType = {
   navigation: NavigationProp,
   searchMembersAndCards: searchMembersAndCards,
-  members: $PropertyType<ReduxStateType, 'members'>
+  members: $PropertyType<ReduxStateType, 'members'>,
+  cards: $PropertyType<ReduxStateType, 'cards'>
 };
 
 type StateType = {
@@ -52,14 +53,15 @@ class SearchContainer extends Component {
     return (
       <View style={{flex: 1}}>
         <StatusBar barStyle="light-content" />
-        <SearchComponent members={this.props.members} />
+        <SearchComponent members={this.props.members} cards={this.props.cards} />
       </View>
     );
   }
 }
 export default connect(
   (state: ReduxStateType) => ({
-    members: state.members
+    members: state.members,
+    cards: state.cards
   }),
   (dispatch: Function, ownProps: PropsType) => ({
     searchMembersAndCards: (term: string) => dispatch(search(term))

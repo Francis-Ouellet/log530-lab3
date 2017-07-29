@@ -3,11 +3,12 @@ import {combineReducers} from 'redux';
 import {combineEpics} from 'redux-observable';
 
 import configureStore from './CreateStore';
-import {Member} from '../Models';
+import {Member, Card} from '../Models';
 
 import {
   isFetching,
-  members
+  members,
+  cards
 } from './Reducers';
 import {
   searchEpic
@@ -16,7 +17,8 @@ import {
 export type ReduxStateType = {
   isFetching: boolean,
   nav: Object,
-  members: Member[]
+  members: Member[],
+  cards: Card[]
 };
 
 export default (navigationReducer: Object) => {
@@ -24,9 +26,11 @@ export default (navigationReducer: Object) => {
   const rootReducer = combineReducers({
     nav: navigationReducer,
     isFetching,
-    members
+    members,
+    cards
   });
 
+  /* ------------- Assemble The Epics ------------- */
   const rootEpic = combineEpics(
     searchEpic
   );
