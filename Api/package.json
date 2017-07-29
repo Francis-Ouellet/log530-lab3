@@ -1,0 +1,9 @@
+{
+  "name": "hobbycartes",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "jsonwebtoken": "^7.4.1",
+    "mysql": "^2.14.0"
+  }
+}
