@@ -64,7 +64,7 @@ Resources:
       Type: AWS::Serverless::Function
       DependsOn: VPCLambdaRole
       Properties:
-        Handler: index.getMember
+        Handler: index.getDetailedMember
         Runtime: nodejs6.10
         CodeUri: ./
         Events:
@@ -77,6 +77,23 @@ Resources:
           Fn::GetAtt:
             - "VPCLambdaRole"
             - "Arn"
+  GetSimpleMember:
+    Type: AWS::Serverless::Function
+    DependsOn: VPCLambdaRole
+    Properties:
+      Handler: index.getMember
+      Runtime: nodejs6.10
+      CodeUri: ./
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /simpleMembers/{id}
+            Method: get
+      Role:
+        Fn::GetAtt:
+          - "VPCLambdaRole"
+          - "Arn"
   GetCollections:
     Type: AWS::Serverless::Function
     Properties:
@@ -219,7 +236,7 @@ Resources:
         GetResource:
           Type: Api
           Properties:
-            Path: /cardIndexes
+            Path: /simpleFiches
             Method: get
       Role:
         Fn::GetAtt:
@@ -236,7 +253,7 @@ Resources:
           GetResource:
             Type: Api
             Properties:
-              Path: /cardIndexes/{id}
+              Path: /fiches/{id}
               Method: get
         Role:
           Fn::GetAtt:
@@ -391,19 +408,70 @@ Resources:
           Fn::GetAtt:
             - "VPCLambdaRole"
             - "Arn"
-  SignUp:
+  CreateMember:
       Type: AWS::Serverless::Function
       DependsOn: VPCLambdaRole
       Properties:
-        Handler: index.signUp
+        Handler: index.createMember
         Runtime: nodejs6.10
         CodeUri: ./
         Events:
           GetResource:
             Type: Api
             Properties:
-              Path: /signUp
+              Path: /members
               Method: post
+        Role:
+          Fn::GetAtt:
+            - "VPCLambdaRole"
+            - "Arn"
+  EditMember:
+    Type: AWS::Serverless::Function
+    DependsOn: VPCLambdaRole
+    Properties:
+      Handler: index.editDetailedMember
+      Runtime: nodejs6.10
+      CodeUri: ./
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /members/{id}
+            Method: put
+      Role:
+        Fn::GetAtt:
+          - "VPCLambdaRole"
+          - "Arn"
+  Search:
+    Type: AWS::Serverless::Function
+    DependsOn: VPCLambdaRole
+    Properties:
+      Handler: index.search
+      Runtime: nodejs6.10
+      CodeUri: ./
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /search
+            Method: get
+      Role:
+        Fn::GetAtt:
+          - "VPCLambdaRole"
+          - "Arn"
+  CardIndexesByCategory:
+      Type: AWS::Serverless::Function
+      DependsOn: VPCLambdaRole
+      Properties:
+        Handler: index.getCardIndexesByCategory
+        Runtime: nodejs6.10
+        CodeUri: ./
+        Events:
+          GetResource:
+            Type: Api
+            Properties:
+              Path: /fiches
+              Method: get
         Role:
           Fn::GetAtt:
             - "VPCLambdaRole"
