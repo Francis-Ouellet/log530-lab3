@@ -49,7 +49,7 @@ export function searchEpic(action: Object) {
         const editorObj = EDITORS.find((editor: Object) => editor.idEditeur === cardObj.idEditeur);
 
         playerObj.nomEquipe = teamObj.nom;
-        playerObj.numero    = seasonObj.numero;
+        playerObj.numero    = seasonObj.numeroJoueur;
         playerObj.position  = seasonObj.position;
         playerObj.estRecrue = seasonObj.estRecrue;
         cardObj.annee       = seasonObj.annee;
