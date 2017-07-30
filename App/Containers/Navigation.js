@@ -4,9 +4,14 @@ import {
   TouchableOpacity,
   TextInput,
   Button,
-  StyleSheet
+  StyleSheet,
+  Image
 } from 'react-native';
-import {StackNavigator, NavigationScreenProp} from 'react-navigation';
+import {
+  StackNavigator,
+  NavigationScreenProp,
+  TabNavigator
+} from 'react-navigation';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
 
 import {
@@ -47,6 +52,12 @@ const TITLES = {
   search: 'Recherche',
   close: 'Fermer'
 };
+export const TAB_NAMES = {
+  hockey: 'Hockey',
+  football: 'Football',
+  baseball: 'Baseball',
+  basketball: 'Basketball'
+};
 
 const SearchNavigator = StackNavigator({
   Search: {
@@ -61,11 +72,9 @@ const SearchNavigator = StackNavigator({
                     style={NavigationStyle.searchTextInput}
                     placeholder="Rechercher" />,
       headerLeft: <CloseButton onPress={() => navigation.goBack(null)} />,
-      headerBackTitle: 'Recherche'
+      headerBackTitle: 'Recherche',
+      tabBarVisible: false
     })
-  },
-  SingleCard: {
-    screen: SingleCardContainer
   }
 }, {
   navigationOptions: {
@@ -76,7 +85,7 @@ const SearchNavigator = StackNavigator({
   headerMode: 'screen'
 });
 
-const BaseNavigatorIOS = StackNavigator({
+const CardsNavigator = StackNavigator({
   Cards: {
     screen: CardsContainer,
     navigationOptions: ({navigation}: {navigation: NavigationScreenProp}) => {
@@ -109,6 +118,61 @@ const BaseNavigatorIOS = StackNavigator({
     headerTintColor: Colors.snow
   },
   mode: 'modal',
+  headerMode: 'screen'
+});
+
+const CardsTabNavigator = TabNavigator({
+  [TAB_NAMES.hockey]: {
+    screen: CardsNavigator,
+    navigationOptions: ({navigation}: {navigation: NavigationScreenProp}) => ({
+      tabBarLabel: TAB_NAMES.hockey,
+      tabBarIcon: <Image source={require('../Resources/hockey.png')} style={{width: 25, height: 25}} />
+    })
+  },
+  [TAB_NAMES.football]: {
+    screen: CardsNavigator,
+    navigationOptions: ({navigation}: {navigation: NavigationScreenProp}) => ({
+      tabBarLabel: TAB_NAMES.football,
+      tabBarIcon: <Image source={require('../Resources/american-football.png')} style={{width: 25, height: 25}} />
+    })
+  },
+  [TAB_NAMES.baseball]: {
+    screen: CardsNavigator,
+    navigationOptions: ({navigation}: {navigation: NavigationScreenProp}) => ({
+      tabBarLabel: TAB_NAMES.baseball,
+      tabBarIcon: <Image source={require('../Resources/baseball.png')} style={{width: 25, height: 25}} />
+    })
+  },
+  [TAB_NAMES.basketball]: {
+    screen: CardsNavigator,
+    navigationOptions: ({navigation}: {navigation: NavigationScreenProp}) => ({
+      tabBarLabel: TAB_NAMES.basketball,
+      tabBarIcon: <Image source={require('../Resources/basketball.png')} style={{width: 25, height: 25}} />
+    })
+  }
+}, {
+  tabBarOptions: {
+    activeBackgroundColor: Colors.drawer,
+    inactiveBackgroundColor: Colors.drawer
+  }
+});
+
+const BaseNavigatorIOS = StackNavigator({
+  Tabs: {
+    screen: CardsTabNavigator,
+    navigationOptions: {
+      header: null
+    }
+  },
+  SingleCard: {
+    screen: SingleCardContainer
+  }
+}, {
+  navigationOptions: {
+    headerStyle: NavigationStyle.header,
+    headerTitleStyle: NavigationStyle.headerTitle,
+    headerTintColor: Colors.snow
+  },
   headerMode: 'screen'
 });
 
