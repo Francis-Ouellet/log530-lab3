@@ -11,8 +11,8 @@ import FAIcon from 'react-native-vector-icons/FontAwesome';
 
 import {
   CardsContainer,
-  SearchContainer
-  // SingleCardContainer
+  SearchContainer,
+  SingleCardContainer
 } from '.';
 import {Colors} from '../Themes';
 
@@ -65,10 +65,10 @@ const SearchNavigator = StackNavigator({
         headerLeft: <CloseButton onPress={() => navigation.goBack(null)} />
       };
     }
+  },
+  SingleCard: {
+    screen: SingleCardContainer
   }
-  //SingleCard: {
-    //screen: SingleCardContainer
-  //}
 }, {
   navigationOptions: {
     headerStyle: NavigationStyle.header,

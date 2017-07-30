@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import {
   View,
   Text,
-  ListView
+  ListView,
+  TouchableOpacity
 } from 'react-native';
 
 import {DataListItem} from '.';
@@ -15,7 +16,9 @@ import type {ReduxStateType} from '../Redux';
 
 type PropsType = {
   members: $PropertyType<ReduxStateType, 'members'>,
-  cards: $PropertyType<ReduxStateType, 'cards'>
+  cards: $PropertyType<ReduxStateType, 'cards'>,
+  onMemberItemPress?: Function,
+  onCardItemPress?: Function
 };
 
 type StateType = {
@@ -30,8 +33,10 @@ export default class SearchComponent extends Component {
   _renderHeader: Function;
 
   static propTypes = {
-    members: PropTypes.arrayOf(PropTypes.instanceOf(Member)),
-    cards: PropTypes.arrayOf(PropTypes.instanceOf(Card))
+    members: PropTypes.arrayOf(PropTypes.instanceOf(Member)).isRequired,
+    cards: PropTypes.arrayOf(PropTypes.instanceOf(Card)).isRequired,
+    onMemberItemPress: PropTypes.func,
+    onCardItemPress: PropTypes.func
   };
 
   constructor(props: PropsType) {
@@ -114,8 +119,13 @@ export default class SearchComponent extends Component {
 
   _renderRow(dataItem: Member | Card) {
     let listItem;
+    let onPress = () => {};
 
     if (dataItem instanceof Member) {
+      if (this.props.onMemberItemPress) {
+        onPress = () => this.props.onMemberItemPress(dataItem);  // eslint-disable-line
+      }
+
       listItem = <DataListItem
                   upperLeftText={dataItem.prenom + ' ' + dataItem.nom}
                   centerLeftText={dataItem.nomUtilisateur}
@@ -123,6 +133,10 @@ export default class SearchComponent extends Component {
                   lowerRightText={'Depuis ' + dataItem.dateInscription.toISOString()}
                   image={dataItem.lienPhotoProfil} />;
     } else if (dataItem instanceof Card) {
+      if (this.props.onCardItemPress) {
+        onPress = () => this.props.onCardItemPress(dataItem);  // eslint-disable-line
+      }
+
       listItem = <DataListItem
                   image={dataItem.lienImageDevant}
                   upperLeftText={dataItem.joueur.prenom + ' ' + dataItem.joueur.nom}
@@ -131,6 +145,6 @@ export default class SearchComponent extends Component {
                   upperRightText={`${dataItem.annee}`} />;
     }
 
-    return listItem;
+    return <TouchableOpacity onPress={onPress}>{listItem}</TouchableOpacity>;
   }
 }
