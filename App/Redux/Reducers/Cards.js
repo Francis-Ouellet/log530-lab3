@@ -1,6 +1,10 @@
 // @flow
 import {Card} from '../../Models';
-import {SEARCH, RECEIVED_RESPONSE} from '../Actions';
+import {
+  SEARCH,
+  RECEIVED_RESPONSE,
+  CLEAR_CARDS
+} from '../Actions';
 
 export function cards(state: Card[] = [], action: {type: Object, data: Object}): Card[] {
   switch (action.type) {
@@ -9,6 +13,9 @@ export function cards(state: Card[] = [], action: {type: Object, data: Object}):
         return action.data.cards;
       }
       return state;
+
+    case CLEAR_CARDS:
+      return [];
 
     default:
       return state;
