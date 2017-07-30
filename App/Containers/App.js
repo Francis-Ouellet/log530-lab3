@@ -1,113 +1,20 @@
 // @flow
 import React, {Component} from 'react';  // eslint-disable-line
 import {
-  TouchableOpacity,
-  Button,
   AppRegistry,
   Platform,
-  StyleSheet,
-  TextInput
 } from 'react-native';
-import {StackNavigator, NavigationNavigator, addNavigationHelpers} from 'react-navigation';
-import FAIcon from 'react-native-vector-icons/FontAwesome';
+import {StackNavigator, addNavigationHelpers} from 'react-navigation';
 import {connect, Provider} from 'react-redux';
 
 import applyConfigSettings from '../Config';
 import createStore from '../Redux';
-import {
-  CardsContainer,
-  SearchContainer
-} from '.';
-import {Colors} from '../Themes';
+import {BaseNavigatorIOS} from './Navigation';
 
 // Apply app settings
 applyConfigSettings();
 
-const NavigationStyle = StyleSheet.create({
-  profileButton: {
-    marginLeft: 10
-  },
-  searchButton: {
-    marginRight: 10
-  },
-  header: {
-    backgroundColor: Colors.hobbyRed
-  },
-  headerTitle: {
-    color: Colors.snow
-  },
-  searchTextInput: {
-    backgroundColor: Colors.ember,
-    padding: 5,
-    height: 30,
-    width: 200,
-    borderRadius: 7,
-    textAlign: 'center'
-  }
-});
-const TITLES = {
-  cards: 'Fil des cartes',
-  search: 'Recherche',
-  close: 'Fermer'
-};
-
-function CloseButton(props: Object) {
-  return <Button color={Colors.snow} onPress={() => props.navigation.goBack()} title={TITLES.close} />;
-}
-
-// Navigation is done here
-let RootNavigator;
-
-if (Platform.OS === 'ios') {
-  RootNavigator = StackNavigator({
-    Cards: {
-      screen: CardsContainer,
-      navigationOptions: ({navigation}: {navigation: NavigationNavigator}) => {
-        return {
-          title: TITLES.cards,
-          headerLeft: (
-            <TouchableOpacity style={NavigationStyle.profileButton} onPress={() => {}}>
-              <FAIcon name="user-circle-o" size={25} color={Colors.snow} />
-            </TouchableOpacity>
-          ),
-          headerRight: (
-            <TouchableOpacity style={NavigationStyle.searchButton} onPress={() => navigation.navigate('Search')}>
-              <FAIcon name="search" size={25} color={Colors.snow} />
-            </TouchableOpacity>
-          ),
-          headerBackTitle: null
-        };
-      }
-    },
-    Search: {
-      screen: SearchContainer,
-      navigationOptions: ({navigation}: {navigation: NavigationNavigator}) => {
-        return {
-          headerTitle: (
-            <TextInput
-              onChangeText={(text: string) => navigation.setParams({searchText: text})}
-              autoCorrect={false}
-              autoCapitalize="none"
-              returnKeyType="search"
-              selectTextOnFocus={true}
-              style={NavigationStyle.searchTextInput}
-              placeholder="Rechercher" />
-          ),
-          headerLeft: <CloseButton navigation={navigation} />
-        };
-      }
-    }
-  }, {
-    navigationOptions: {
-      headerStyle: NavigationStyle.header,
-      headerTitleStyle: NavigationStyle.headerTitle,
-      headerTintColor: Colors.snow
-    },
-    mode: 'modal'
-  });
-} else {  // Android
-  RootNavigator = StackNavigator();
-}
+const RootNavigator = Platform.OS === 'ios' ? BaseNavigatorIOS : StackNavigator();
 
 function navigationReducer(state: Object, action: Object) {
   const newState = RootNavigator.router.getStateForAction(action, state);
