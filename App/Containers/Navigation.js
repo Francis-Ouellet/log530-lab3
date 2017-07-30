@@ -6,7 +6,7 @@ import {
   Button,
   StyleSheet
 } from 'react-native';
-import {StackNavigator, NavigationNavigator} from 'react-navigation';
+import {StackNavigator, NavigationScreenProp} from 'react-navigation';
 import FAIcon from 'react-native-vector-icons/FontAwesome';
 
 import {
@@ -48,23 +48,21 @@ const TITLES = {
   close: 'Fermer'
 };
 
-// iOS
 const SearchNavigator = StackNavigator({
   Search: {
     screen: SearchContainer,
-    navigationOptions: ({navigation}: {navigation: NavigationNavigator}) => {
-      return {
-        headerTitle: <TextInput
-                      onChangeText={(text: string) => navigation.setParams({searchText: text})}
-                      autoCorrect={false}
-                      autoCapitalize="none"
-                      returnKeyType="search"
-                      selectTextOnFocus={true}
-                      style={NavigationStyle.searchTextInput}
-                      placeholder="Rechercher" />,
-        headerLeft: <CloseButton onPress={() => navigation.goBack(null)} />
-      };
-    }
+    navigationOptions: ({navigation}: {navigation: NavigationScreenProp}) => ({
+      headerTitle: <TextInput
+                    onChangeText={(text: string) => navigation.setParams({searchText: text})}
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    returnKeyType="search"
+                    selectTextOnFocus={true}
+                    style={NavigationStyle.searchTextInput}
+                    placeholder="Rechercher" />,
+      headerLeft: <CloseButton onPress={() => navigation.goBack(null)} />,
+      headerBackTitle: 'Recherche'
+    })
   },
   SingleCard: {
     screen: SingleCardContainer
@@ -81,7 +79,7 @@ const SearchNavigator = StackNavigator({
 const BaseNavigatorIOS = StackNavigator({
   Cards: {
     screen: CardsContainer,
-    navigationOptions: ({navigation}: {navigation: NavigationNavigator}) => {
+    navigationOptions: ({navigation}: {navigation: NavigationScreenProp}) => {
       return {
         title: TITLES.cards,
         headerLeft: (
@@ -100,10 +98,8 @@ const BaseNavigatorIOS = StackNavigator({
   },
   Search: {
     screen: SearchNavigator,
-    navigationOptions: ({navigation}: {navigation: NavigationNavigator}) => {
-      return {
-        header: null
-      };
+    navigationOptions: {
+      header: null
     }
   }
 }, {
