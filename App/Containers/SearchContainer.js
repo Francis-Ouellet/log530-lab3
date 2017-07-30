@@ -8,7 +8,7 @@ import {NavigationProp} from 'react-navigation';
 import {connect} from 'react-redux';
 
 import {SearchComponent} from '../Components';
-import {search} from '../Redux/Actions';
+import {search, clearMembers, clearCards} from '../Redux/Actions';
 import {Card} from '../Models';
 
 import type {ReduxStateType} from '../Redux';
@@ -19,7 +19,8 @@ type PropsType = {
   navigation: NavigationProp,
   searchMembersAndCards: searchMembersAndCards,
   members: $PropertyType<ReduxStateType, 'members'>,
-  cards: $PropertyType<ReduxStateType, 'cards'>
+  cards: $PropertyType<ReduxStateType, 'cards'>,
+  clearAll: Function
 };
 
 type StateType = {
@@ -50,6 +51,10 @@ class SearchContainer extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.clearAll();
+  }
+
   render() {
     return (
       <View style={{flex: 1}}>
@@ -68,6 +73,10 @@ export default connect(
     cards: state.cards
   }),
   (dispatch: Function, ownProps: PropsType) => ({
-    searchMembersAndCards: (term: string) => dispatch(search(term))
+    searchMembersAndCards: (term: string) => dispatch(search(term)),
+    clearAll: () => {
+      dispatch(clearCards());
+      dispatch(clearMembers());
+    }
   })
 )(SearchContainer);
