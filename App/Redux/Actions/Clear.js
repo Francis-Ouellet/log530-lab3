@@ -9,8 +9,9 @@ export function clearMembers() {
   };
 }
 
-export function clearCards() {
+export function clearCards(category: string) {
   return {
-    type: CLEAR_CARDS
+    type: CLEAR_CARDS,
+    category
   };
 }
