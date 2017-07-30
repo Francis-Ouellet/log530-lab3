@@ -20,6 +20,7 @@ import {
   SingleCardContainer
 } from '.';
 import {Colors} from '../Themes';
+import {Collection} from '../Models';
 
 function CloseButton(props: Object) {
   return <Button color={Colors.snow} onPress={props.onPress} title={TITLES.close} />;
@@ -88,7 +89,7 @@ const SearchNavigator = StackNavigator({
 const CardsNavigator = StackNavigator({
   Cards: {
     screen: CardsContainer,
-    navigationOptions: ({navigation}: {navigation: NavigationScreenProp}) => {
+    navigationOptions: (props: Object) => {
       return {
         title: TITLES.cards,
         headerLeft: (
@@ -97,11 +98,11 @@ const CardsNavigator = StackNavigator({
           </TouchableOpacity>
         ),
         headerRight: (
-          <TouchableOpacity style={NavigationStyle.searchButton} onPress={() => navigation.navigate('Search')}>
+          <TouchableOpacity style={NavigationStyle.searchButton} onPress={() => props.navigation.navigate('Search')}>
             <FAIcon name="search" size={25} color={Colors.snow} />
           </TouchableOpacity>
         ),
-        headerBackTitle: null
+        headerBackTitle: 'Fiches'
       };
     }
   },
