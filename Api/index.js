@@ -1,7 +1,9 @@
 /* eslint-disable */
 'use strict';
 const mysql = require('mysql');
+const jwt = require('jsonwebtoken');
 const memberColumns = ["idMembre", "prenom", "nom", "nomUtilisateur", "courriel", "lienPhotoProfil", "dateInscription", "admin"];
+const jwtKey = "hobbyCarteLog530-11fwbjfaeb";
 
 /**
  * Create a connection for the database and call handleDisconnection to it
@@ -107,7 +109,7 @@ function createResponse(isBase64Encoded, statusCode, headers, body) {
 
 /**
  * Select a list from a table
- * @param requestData {event, config, callback}
+ * @param requestData -{event, config, callback}
  * @param tableName ex: "users"
  * @param columns that we want on the list, by default it's *
  */
@@ -120,7 +122,7 @@ const getList = (requestData, tableName, columns = ["*"]) =>{
 
 /**
  * Get an item from a table
- * @param requestData {event, config, callback}
+ * @param requestData - {event, config, callback}
  * @param tableName ex: "users"
  * @param columns that we want on the item, by default it's *
  */
@@ -189,7 +191,7 @@ exports.getMessage = (event, context, callback) => getItem({event, context, call
 exports.getSeason = (event, context, callback) => getItem({event, context, callback}, "saison");
 
 /**
- * TODO Connexion with jwt (Authentication header + https://templth.wordpress.com/2015/01/05/implementing-authentication-with-tokens-for-restful-applications/ and see bookmark)
+ * Return something like {user{...}, token: string}. The token is encoded using jwt.
  * @param event
  * @param context
  * @param callback
@@ -198,10 +200,11 @@ exports.login = (event, context, callback) => {
   const body = event.body ? JSON.parse(event.body) : event;
   const {username, password, email} = body;
 
-  connection.query('SELECT * FROM membre WHERE (nomUtilisateur = ? OR courriel = ?) AND motDePasse = ?', [username, email, password], (error, results) => {
+  connection.query('SELECT ' + memberColumns + ' FROM membre WHERE (nomUtilisateur = ? OR courriel = ?) AND motDePasse = ?', [username, email, password], (error, results) => {
     const resultsIsEmpty = !(results && results.length);
     if(resultsIsEmpty) error = error || "La combinaison de ce nom d'utilisateur ou courriel, ainsi que ce mot de passe est invalide.";
-    handleResponse({event, context, callback}, error, extractFirstResult(results));
+    else results = {user: results[0], token: jwt.sign(results[0], jwtKey)};
+    handleResponse({event, context, callback}, error, results);
   });
   endConnection();
 };
