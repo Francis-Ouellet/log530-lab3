@@ -30,18 +30,27 @@ function getToken(event) {
 
 exports.authenticate = function (event, context, callback) {
   const token = getToken(event);
-  if(token)
+  const methodArn = event.methodArn;
+  if(token && methodArn) {
+    let memberId;
+    const dependsOnMember = methodArn.match(/(\/members\/[0-9]+(\/|$))/i);
+    const isGet = methodArn.match(/GET/);
+    if (dependsOnMember && !isGet) memberId = +dependsOnMember[0].split("/")[2];
     jwt.verify(token, jwtKey, function (err, decoded) {
-      if (err) callback(err);
+      if (err) callback(null, err);
       else {
-        callback(null, {
-          principalId: decoded.userId,
-          policyDocument: getPolicyDocument('Allow', event.methodArn),
-          context: {
-            scope: decoded.scope
-          }
-        });
+        if(!memberId || (memberId && memberId === decoded.idMembre)) {
+          callback(null, {
+            principalId: decoded.idMembre,
+            policyDocument: getPolicyDocument('Allow', event.methodArn),
+            context: {
+              scope: decoded.scope
+            }
+          });
+        }
+        else callback("Vous n'avez pas la permission");
       }
     });
+  }
   else callback("Vous n'avez pas la permission")
 };
