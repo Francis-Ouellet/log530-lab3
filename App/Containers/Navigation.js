@@ -177,6 +177,9 @@ const BaseNavigatorIOS = StackNavigator({
   headerMode: 'screen'
 });
 
+const BaseNavigatorAndroid = BaseNavigatorIOS;
+
 export {
-  BaseNavigatorIOS
+  BaseNavigatorIOS,
+  BaseNavigatorAndroid
 };

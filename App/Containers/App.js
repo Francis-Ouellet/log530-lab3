@@ -4,17 +4,17 @@ import {
   AppRegistry,
   Platform,
 } from 'react-native';
-import {StackNavigator, addNavigationHelpers} from 'react-navigation';
+import {addNavigationHelpers} from 'react-navigation';
 import {connect, Provider} from 'react-redux';
 
 import applyConfigSettings from '../Config';
 import createStore from '../Redux';
-import {BaseNavigatorIOS} from './Navigation';
+import {BaseNavigatorIOS, BaseNavigatorAndroid} from './Navigation';
 
 // Apply app settings
 applyConfigSettings();
 
-const RootNavigator = Platform.OS === 'ios' ? BaseNavigatorIOS : StackNavigator();
+const RootNavigator = Platform.OS === 'ios' ? BaseNavigatorIOS : BaseNavigatorAndroid;
 
 function navigationReducer(state: Object, action: Object) {
   const newState = RootNavigator.router.getStateForAction(action, state);
