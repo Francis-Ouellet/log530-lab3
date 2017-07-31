@@ -44,7 +44,6 @@
     "eslint-plugin-react": "latest",
     "eslint-plugin-flowtype": "latest",
     "eslint-plugin-flowtype-errors": "latest",
-    "husky": "latest",
     "jest": "latest",
     "react-test-renderer": "^16.0.0-alpha.12",
     "reactotron": "^0.9.0",
