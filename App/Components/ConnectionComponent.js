@@ -1,7 +1,9 @@
 // @flow
 import React, {Component} from 'react';  // eslint-disable-line
 import {
-  View
+  View,
+  Text,
+  TouchableOpacity
 } from 'react-native';
 
 import {ConnectionComponentStyle} from './Styles';
@@ -34,6 +36,12 @@ export default class ConnectionComponent extends Component {
           style={{marginTop: 10}}>
           Go !
         </BigRedButton>
+        <View style={ConnectionComponentStyle.subscribeView}>
+          <Text>Pas de compte? </Text>
+          <TouchableOpacity onPress={() => {}}>
+            <Text style={ConnectionComponentStyle.subscribeText}>Inscrivez-vous</Text>
+          </TouchableOpacity>
+        </View>
         <View style={{height: 50}} />
       </View>
     );
