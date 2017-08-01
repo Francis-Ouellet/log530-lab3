@@ -17,10 +17,10 @@ import FAIcon from 'react-native-vector-icons/FontAwesome';
 import {
   CardsContainer,
   SearchContainer,
-  SingleCardContainer
+  SingleCardContainer,
+  ConnectionContainer
 } from '.';
 import {Colors} from '../Themes';
-import {Collection} from '../Models';
 
 function CloseButton(props: Object) {
   return <Button color={Colors.snow} onPress={props.onPress} title={TITLES.close} />;
@@ -46,6 +46,9 @@ const NavigationStyle = StyleSheet.create({
     width: 200,
     borderRadius: 7,
     textAlign: 'center'
+  },
+  blankHeaderStyle: {
+    backgroundColor: Colors.transparent
   }
 });
 const TITLES = {
@@ -93,7 +96,7 @@ const CardsNavigator = StackNavigator({
       return {
         title: TITLES.cards,
         headerLeft: (
-          <TouchableOpacity style={NavigationStyle.profileButton} onPress={() => {}}>
+          <TouchableOpacity style={NavigationStyle.profileButton} onPress={() => props.navigation.navigate('Login')}>
             <FAIcon name="user-circle-o" size={25} color={Colors.snow} />
           </TouchableOpacity>
         ),
@@ -111,6 +114,19 @@ const CardsNavigator = StackNavigator({
     navigationOptions: {
       header: null
     }
+  },
+  Login: {
+    screen: ConnectionContainer,
+    navigationOptions: (props: Object) => ({
+      headerTitle: null,
+      headerStyle: NavigationStyle.blankHeaderStyle,
+      headerLeft: (
+        <TouchableOpacity style={{marginLeft: 10}} onPress={() => props.navigation.goBack(null)}>
+          <FAIcon name="times-circle" size={40} color="black" />
+        </TouchableOpacity>
+      ),
+      tabBarVisible: false
+    })
   }
 }, {
   navigationOptions: {
