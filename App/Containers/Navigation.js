@@ -17,10 +17,10 @@ import FAIcon from 'react-native-vector-icons/FontAwesome';
 import {
   CardsContainer,
   SearchContainer,
-  SingleCardContainer
+  SingleCardContainer,
+  MemberContainer
 } from '.';
 import {Colors} from '../Themes';
-import {Collection} from '../Models';
 
 function CloseButton(props: Object) {
   return <Button color={Colors.snow} onPress={props.onPress} title={TITLES.close} />;
@@ -167,6 +167,9 @@ const BaseNavigatorIOS = StackNavigator({
   },
   SingleCard: {
     screen: SingleCardContainer
+  },
+  Member: {
+    screen: MemberContainer
   }
 }, {
   navigationOptions: {
