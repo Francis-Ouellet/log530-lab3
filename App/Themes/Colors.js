@@ -20,7 +20,8 @@ const colors = {
   ember: 'rgba(164, 0, 48, 0.5)',
   fire: '#e73536',
   drawer: 'rgba(30, 30, 29, 0.95)',
-  hobbyRed: 'rgba(212, 0, 5, 1)'
+  hobbyRed: 'rgba(212, 0, 5, 1)',
+  hobbyBlue: 'rgba(10, 10, 200, 1)'
 };
 
 export default colors;
