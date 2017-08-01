@@ -19,6 +19,7 @@ export default class Member {
   postalCode: string;
   lienPhotoProfil: string;
   estAdmin: boolean;
+  nombreDeCartes: number;
 
   /**
    * Creates an instance of Member.
@@ -40,5 +41,6 @@ export default class Member {
     this.dateInscription = new Date(initObj.dateInscription);
     this.lienPhotoProfil = initObj.lienPhotoProfil || DEFAULT_USER_IMAGE_URL;
     this.estAdmin = initObj.admin;
+    this.nombreDeCartes = initObj.nombreDeCartes;
   }
 }

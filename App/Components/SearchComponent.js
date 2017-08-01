@@ -129,7 +129,7 @@ export default class SearchComponent extends Component {
       listItem = <DataListItem
                   upperLeftText={dataItem.prenom + ' ' + dataItem.nom}
                   centerLeftText={dataItem.nomUtilisateur}
-                  lowerLeftText="100 cartes"
+                  lowerLeftText={dataItem.nombreDeCartes + (dataItem.nombreDeCartes && dataItem.nombreDeCartes > 1 ? " cartes": " carte")}
                   lowerRightText={'Depuis ' + dataItem.dateInscription.toISOString()}
                   image={dataItem.lienPhotoProfil} />;
     } else if (dataItem instanceof Card) {
