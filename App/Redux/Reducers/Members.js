@@ -21,3 +21,11 @@ export function members(state: Member[] = [], action: {type: Object, data: Objec
       return state;
   }
 }
+
+export function showMember(state: Object = MEMBERS[1], action: any) : Member {
+  return state;
+}
+
+export function editMember(newMember : Member) : Member {
+
+}

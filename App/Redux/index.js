@@ -12,7 +12,13 @@ import {
 } from './Reducers';
 import {
   searchEpic,
-  getCardsByCategoryEpic
+  getCardsByCategoryEpic,
+  showMember,
+  editMember
+} from './Reducers';
+
+import {
+  searchEpic
 } from './Actions';
 
 export type ReduxStateType = {
@@ -25,7 +31,8 @@ export type ReduxStateType = {
     football: Card[],
     baseball: Card[],
     basketball: Card[]
-  }
+  },
+  actualMember: Member
 };
 
 export default (navigationReducer: Object) => {
@@ -34,13 +41,18 @@ export default (navigationReducer: Object) => {
     nav: navigationReducer,
     isFetching,
     members,
-    cards
+    cards,
+    actualMember: showMember
   });
 
   /* ------------- Assemble The Epics ------------- */
   const rootEpic = combineEpics(
     searchEpic,
     getCardsByCategoryEpic
+  });
+
+  const rootEpic = combineEpics(
+    searchEpic
   );
 
   return configureStore(rootReducer, rootEpic);
