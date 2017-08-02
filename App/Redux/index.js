@@ -13,9 +13,7 @@ import {
 } from './Reducers';
 import {
   searchEpic,
-  getCardsByCategoryEpic,
-  showMember,
-  editMember
+  getCardsByCategoryEpic
 } from './Reducers';
 
 import {
