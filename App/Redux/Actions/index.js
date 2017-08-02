@@ -16,6 +16,10 @@ import {
 import {
   getCardsByCategory, getCardsByCategoryEpic, GET_CARDS_BY_CATEGORY
 } from './Cards';
+import {
+  login, loginEpic, LOGIN,
+  logout, LOGOUT
+} from './Login';
 
 export {
   FETCHING_FROM_SERVER, fetchingFromServer,
@@ -24,5 +28,7 @@ export {
   SEARCH, search, searchEpic,
   CLEAR_MEMBERS, clearMembers,
   CLEAR_CARDS, clearCards,
-  GET_CARDS_BY_CATEGORY, getCardsByCategory, getCardsByCategoryEpic
+  GET_CARDS_BY_CATEGORY, getCardsByCategory, getCardsByCategoryEpic,
+  LOGIN, login, loginEpic,
+  LOGOUT, logout
 };
