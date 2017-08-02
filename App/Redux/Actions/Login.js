@@ -43,6 +43,7 @@ export function subscribe(
     password
   };
 }
+
 export function loginEpic(action: Object) {
   return action.ofType(LOGIN)
     .switchMap((action: Object) => {
