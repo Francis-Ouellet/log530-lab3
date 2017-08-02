@@ -47,10 +47,21 @@ export function searchEpic(action: Object) {
     .switchMap((action: Object) => {
       const searchObservable = ajax.getJSON('https://hp4yqks7n9.execute-api.us-east-2.amazonaws.com/Prod/search?name="' + action.term + '"');
       membersObservable = searchObservable.map((response: Object) => {
-        return receivedResponse({members: response.members.map((m: Object) => new Member(m)), originAction: SEARCH});
+        const members = response.members
+          .map((m: Object) => new Member(m))
+          .slice(0, 50);
+        return receivedResponse(
+          {
+            members,
+            originAction: SEARCH
+          }
+        );
       });
       cardsObservable = searchObservable.map((response: Object ) => {
-        return receivedResponse({cards: response.players.map((card: Object) => buildCard(card)), originAction: SEARCH});
+        const cards = response.players
+          .map((card: Object) => buildCard(card))
+          .slice(0, 50);
+        return receivedResponse({cards, originAction: SEARCH});
       });
 
       return Rx.Observable.of(fetchingFromServer()).concat(membersObservable).concat(cardsObservable);
