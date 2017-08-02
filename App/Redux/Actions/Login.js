@@ -1,10 +1,9 @@
 // @flow
 import Rx from 'rxjs';
+import {ajax} from 'rxjs/observable/dom/ajax';
 
 import {receivedResponse, receivedError} from '.';
 import {Member} from '../../Models';
-
-const MEMBERS = require('./dummy_members.json');
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
@@ -44,50 +43,48 @@ export function subscribe(
     password
   };
 }
-
 export function loginEpic(action: Object) {
   return action.ofType(LOGIN)
     .switchMap((action: Object) => {
       const message = 'Incorrect username/email or password.';
-      let memberObj = MEMBERS.find((member: Object) => member.nomUtilisateur === action.username);
-
-      if (!memberObj) {
-        memberObj = MEMBERS.find((member: Object) => member.courriel === action.username);
-      }
-
-      if (!memberObj) {
-        return Rx.Observable.of(receivedError(message));
-      }
-
-      if (memberObj.motDePasse !== action.password) {
-        return Rx.Observable.of(receivedError(message));
-      }
-
-      const member = new Member(memberObj);
-      return Rx.Observable.of(receivedResponse({
-        member,
-        originAction: LOGIN
-      }));
+      const url = "https://hp4yqks7n9.execute-api.us-east-2.amazonaws.com/Prod/login";
+      const body = JSON.stringify({email: action.username, username: action.username, password: action.password});
+      return ajax.post(url, body)
+        .catch(error => Rx.Observable.of(receivedError(message)))
+        .map(xhr => {
+          if(xhr.response){
+            const responseObject = xhr.response;
+            const user = responseObject.user;
+            user.token = responseObject.token;
+            return receivedResponse({member: new Member(user), originAction: LOGIN});
+          }
+          else return receivedError(message);
+      });
     });
 }
 
 export function subscribeEpic(action: Object) {
   return action.ofType(SUBSCRIBE)
     .switchMap((action: Object) => {
+      const url = "https://hp4yqks7n9.execute-api.us-east-2.amazonaws.com/Prod/members";
+      const message = "Erreur lors de la création du compte";
       // Add member to system
       // initialize new Member
-      const member = new Member({
+      const body = JSON.stringify({
         prenom: action.firstName,
-        npm: action.lastName,
-        ville: action.city,
-        codePostal: action.postalCode,
+        nom: action.lastName,
         courriel: action.email,
         nomUtilisateur: action.username,
         motDePasse: action.password
       });
-      return Rx.Observable.of(receivedResponse({
-        member,
-        originAction: SUBSCRIBE
-      }));
+
+      return ajax.post(url, body)
+        .catch(error => Rx.Observable.of(receivedError(message)))
+        .map(xhr => {
+          if(xhr.response){
+            return receivedResponse({member: new Member(xhr.response), originAction: SUBSCRIBE});
+          }
+          else return receivedError(message);
+        });
     });
 }

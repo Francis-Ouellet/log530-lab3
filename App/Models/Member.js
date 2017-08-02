@@ -20,6 +20,7 @@ export default class Member {
   lienPhotoProfil: string;
   estAdmin: boolean;
   nombreDeCartes: number;
+  token: string;
 
   /**
    * Creates an instance of Member.
@@ -38,9 +39,10 @@ export default class Member {
     this.nomUtilisateur = initObj.nomUtilisateur;
     this.motDePasse = initObj.motDePasse;
     this.courriel = initObj.courriel;
-    this.dateInscription = new Date(initObj.dateInscription);
+    if(initObj.dateInscription) this.dateInscription = new Date(initObj.dateInscription);
     this.lienPhotoProfil = initObj.lienPhotoProfil || DEFAULT_USER_IMAGE_URL;
     this.estAdmin = initObj.admin;
     this.nombreDeCartes = initObj.nombreDeCartes;
+    this.token = initObj.token;
   }
 }

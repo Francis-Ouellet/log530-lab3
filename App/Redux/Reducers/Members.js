@@ -8,6 +8,7 @@ import {
 } from '../Actions';
 
 export function members(state: Member[] = [], action: {type: Object, data: Object}): Member[] {
+  console.warn(JSON.stringify(action));
   switch (action.type) {
     case RECEIVED_RESPONSE:
       if (action.data.originAction && action.data.originAction === SEARCH && action.data.members) {
@@ -24,6 +25,7 @@ export function members(state: Member[] = [], action: {type: Object, data: Objec
 }
 
 export function currentMember(state: ?Member = null, action: Object): ?Member {
+  console.warn(JSON.stringify(action));
   switch (action.type) {
     case RECEIVED_RESPONSE:
       if (action.data.originAction && action.data.originAction === LOGIN) {
