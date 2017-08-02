@@ -4,7 +4,7 @@ import {
   SEARCH,
   RECEIVED_RESPONSE,
   CLEAR_MEMBERS,
-  LOGIN, LOGOUT,
+  LOGIN, LOGOUT, SUBSCRIBE,
   UPDATING_USER_PROFIL
 } from '../Actions';
 
@@ -29,7 +29,10 @@ export function currentMember(state: ?Member = null, action: Object): ?Member {
     case RECEIVED_RESPONSE:
       if (action.data.originAction && action.data.originAction === LOGIN) {
         return action.data.member;
+      } else if (action.data.originAction && action.data.originAction === SUBSCRIBE) {
+        return action.data.member;
       }
+      return state;
 
     case LOGOUT:
       return null;

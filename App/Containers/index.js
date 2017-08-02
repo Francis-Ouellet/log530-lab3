@@ -6,6 +6,7 @@ import {TAB_NAMES} from './Navigation';
 import ConnectionContainer from './ConnectionContainer';
 import ProfileContainer from './ProfileContainer';
 import EditProfileContainer from './EditProfileContainer';
+import SubscribeContainer from './SubscribeContainer';
 
 export {
   CardsContainer,
@@ -14,5 +15,6 @@ export {
   TAB_NAMES,
   ConnectionContainer,
   ProfileContainer,
-  EditProfileContainer
+  EditProfileContainer,
+  SubscribeContainer
 };

@@ -15,7 +15,8 @@ import {
 import {
   searchEpic,
   getCardsByCategoryEpic,
-  loginEpic
+  loginEpic,
+  subscribeEpic
 } from './Actions';
 
 export type ReduxStateType = {
@@ -46,7 +47,8 @@ export default (navigationReducer: Object) => {
   const rootEpic = combineEpics(
     searchEpic,
     getCardsByCategoryEpic,
-    loginEpic
+    loginEpic,
+    subscribeEpic
   );
 
   return configureStore(rootReducer, rootEpic);

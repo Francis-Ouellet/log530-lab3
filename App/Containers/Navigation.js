@@ -19,11 +19,11 @@ import {
   SearchContainer,
   SingleCardContainer,
   ConnectionContainer,
+  SubscribeContainer,
   ProfileContainer,
   EditProfileContainer
 } from '.';
 import {Colors} from '../Themes';
-import {Collection} from '../Models';
 
 function CloseButton(props: Object) {
   return <Button color={Colors.snow} onPress={props.onPress} title={TITLES.close} />;
@@ -52,6 +52,9 @@ const NavigationStyle = StyleSheet.create({
   },
   blankHeaderStyle: {
     backgroundColor: Colors.transparent
+  },
+  loginBackTitle: {
+    color: 'black'
   }
 });
 const TITLES = {
@@ -184,7 +187,8 @@ const CardsNavigator = StackNavigator({
           <FAIcon name="times-circle" size={40} color="black" />
         </TouchableOpacity>
       ),
-      tabBarVisible: false
+      tabBarVisible: false,
+      headerBackTitle: 'Connexion'
     })
   },
   Profil: {
@@ -248,6 +252,15 @@ const BaseNavigatorIOS = StackNavigator({
   },
   SingleCard: {
     screen: SingleCardContainer
+  },
+  Subscribe: {
+    screen: SubscribeContainer,
+    navigationOptions: (props: Object) => ({
+      headerTitle: null,
+      headerStyle: NavigationStyle.blankHeaderStyle,
+      tabBarVisible: false,
+      headerTintColor: 'black'
+    })
   }
 }, {
   navigationOptions: {

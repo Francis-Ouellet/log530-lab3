@@ -1,5 +1,6 @@
 // @flow
 import Rx from 'rxjs';
+import {ajax} from 'rxjs/observable/dom/ajax';
 
 import {fetchingFromServer, receivedResponse} from '.';
 import {
@@ -8,14 +9,6 @@ import {
   Editor,
   Card
 } from '../../Models';
-
-const MEMBERS = require('./dummy_members.json');
-const CARDS = require('./dummy_cards.json');
-const PLAYERS = require('./dummy_players.json');
-const EDITORS = require('./dummy_editors.json');
-const SEASONS = require('./dummy_seasons.json');
-const TEAMS = require('./dummy_teams.json');
-
 export const SEARCH = 'SEARCH';
 
 export function search(term: string) {
@@ -25,55 +18,53 @@ export function search(term: string) {
   };
 }
 
+function buildCard(card: Object){
+  const player = new Player({
+    nomEquipe: card.equipe,
+    prenom: card.prenom,
+    nom: card.nom,
+    numero: card.numeroJoueur,
+    position: card.position,
+    estRecrue: card.estRecrue
+  });
+  const editor = new Editor({idEditeur: card.idEditeur, nom: card.editeur});
+  return new Card({
+    idFiche: card.idFiche,
+    datePublication: card.datePublication,
+    valeur: card.valeur,
+    lienImageDevant: card.lienImageDevant,
+    lienImageDerriere: card.lienImageDerriere,
+    annee: card.annee,
+    etat: card.etat
+  }, editor, player);
+}
+
 export function searchEpic(action: Object) {
-  const delay = Math.random() * (1500 - 200) + 200;
-  const delay2 = Math.random() * (2000 - 400) + 400;
+  let membersObservable;
+  let cardsObservable;
 
   return action.ofType(SEARCH)
     .switchMap((action: Object) => {
-      const members = MEMBERS
-        .filter((member: Object) =>
-          member.prenom.includes(action.term) ||
-          member.nom.includes(action.term) ||
-          member.nomUtilisateur.includes(action.term)
-        )
-        .map((member: Object) => new Member(member));
-      const cards = PLAYERS.filter((player: Object) =>
-        player.prenom.includes(action.term) ||
-        player.nom.includes(action.term)
-      )
-      .map((playerObj: Object) => {
-        const seasonObj = SEASONS.find((season: Object) => season.idJoueur === playerObj.idJoueur);
-        const teamObj = TEAMS.find((team: Object) => team.idEquipe === seasonObj.idEquipe);
-        const cardObj = CARDS.find((card: Object) => card.idSaison === seasonObj.idSaison);
-        const editorObj = EDITORS.find((editor: Object) => editor.idEditeur === cardObj.idEditeur);
-
-        playerObj.nomEquipe = teamObj.nom;
-        playerObj.numero    = seasonObj.numeroJoueur;
-        playerObj.position  = seasonObj.position;
-        playerObj.estRecrue = seasonObj.estRecrue;
-        cardObj.annee       = seasonObj.annee;
-
-        const editor = new Editor(editorObj);
-        const player = new Player(playerObj);
-        return new Card(cardObj, editor, player);
-      });
-
-      return Rx.Observable.of(fetchingFromServer())
-        .concat(
-          Rx.Observable.of(receivedResponse({
+      const searchObservable = ajax.getJSON('https://hp4yqks7n9.execute-api.us-east-2.amazonaws.com/Prod/search?name="' + action.term + '"');
+      membersObservable = searchObservable.map((response: Object) => {
+        const members = response.members
+          .map((m: Object) => new Member(m))
+          .slice(0, 50);
+        return receivedResponse(
+          {
             members,
             originAction: SEARCH
-          }))
-          .delay(delay)
-        )
-        .concat(
-          Rx.Observable.of(receivedResponse({
-            cards,
-            originAction: SEARCH
-          }))
-          .delay(delay2)
+          }
         );
+      });
+      cardsObservable = searchObservable.map((response: Object ) => {
+        const cards = response.players
+          .map((card: Object) => buildCard(card))
+          .slice(0, 50);
+        return receivedResponse({cards, originAction: SEARCH});
+      });
+
+      return Rx.Observable.of(fetchingFromServer()).concat(membersObservable).concat(cardsObservable);
     });
 }
 

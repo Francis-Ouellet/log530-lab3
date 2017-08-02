@@ -1,6 +1,8 @@
 // @flow
 import Rx from 'rxjs';
 
+import {ajax} from 'rxjs/observable/dom/ajax';
+
 import {
   Card,
   Player,
@@ -11,13 +13,6 @@ import {
   receivedResponse
 } from '.';
 
-const COLLECTIONS = require('./dummy_collections.json');
-const EDITORS = require('./dummy_editors.json');
-const PLAYERS = require('./dummy_players.json');
-const SEASONS = require('./dummy_seasons.json');
-const TEAMS = require('./dummy_teams.json');
-const CARDS = require('./dummy_cards.json');
-
 export const GET_CARDS_BY_CATEGORY = 'GET_CARDS_BY_CATEGORY';
 
 export function getCardsByCategory(category: string) {
@@ -27,48 +22,43 @@ export function getCardsByCategory(category: string) {
   };
 }
 
-export function getCardsByCategoryEpic(action: Object) {
-  const delay = Math.random() * (1500 - 200) + 200;
+function buildCard(card: Object){
+  const player = new Player({
+    nomEquipe: card.equipe,
+    prenom: card.prenom,
+    nom: card.nom,
+    numero: card.numeroJoueur,
+    position: card.position,
+    estRecrue: card.estRecrue
+  });
+  const editor = new Editor({idEditeur: card.idEditeur, nom: card.editeur});
+  return new Card({
+    idFiche: card.idFiche,
+    datePublication: card.datePublication,
+    valeur: card.valeur,
+    lienImageDevant: card.lienImageDevant,
+    lienImageDerriere: card.lienImageDerriere,
+    annee: card.annee,
+    etat: card.etat
+  }, editor, player);
+}
 
+export function getCardsByCategoryEpic(action: Object) {
   return action.ofType(GET_CARDS_BY_CATEGORY)
     .mergeMap((action: Object) => {
       const category = action.category.toUpperCase();
-      let cards: Card[] = [];
-
-      COLLECTIONS
-        .filter((collectionObj: Object) => collectionObj.type === category)
-        .forEach((collectionObj: Object) => {
-          const cardsList: Card[] = CARDS
-            .filter((cardObj: Object) => cardObj.idCollection === collectionObj.idCollection)
-            .map((cardObj: Object) => {
-              const seasonObj = SEASONS.find((season: Object) => season.idSaison === cardObj.idSaison);
-              const teamObj = TEAMS.find((team: Object) => team.idEquipe === seasonObj.idEquipe);
-              const editorObj = EDITORS.find((editor: Object) => editor.idEditeur === cardObj.idEditeur);
-              const playerObj = PLAYERS.find((player: Object) => player.idJoueur === seasonObj.idJoueur);
-
-              playerObj.nomEquipe = teamObj.nom;
-              playerObj.numero    = seasonObj.numeroJoueur;
-              playerObj.position  = seasonObj.position;
-              playerObj.estRecrue = seasonObj.estRecrue;
-              cardObj.annee       = seasonObj.annee;
-
-              const editor = new Editor(editorObj);
-              const player = new Player(playerObj);
-              return new Card(cardObj, editor, player);
-            });
-
-          cards = cards.concat(cardsList);
-        });
-
-      cards = cards.slice(0, 100);
-      return Rx.Observable.of(fetchingFromServer())
-        .concat(
-          Rx.Observable.of(receivedResponse({
-            cards,
+      const categoryObservable = ajax.getJSON('https://hp4yqks7n9.execute-api.us-east-2.amazonaws.com/Prod/fiches?category=' + action.category.toLowerCase())
+        .map((response: Object) => {
+          return receivedResponse({
+            cards: response.map((card: Object) => buildCard(card)).slice(0, 50),
             category,
             originAction: GET_CARDS_BY_CATEGORY
-          }))
-          .delay(delay)
+          });
+      });
+
+      return Rx.Observable.of(fetchingFromServer())
+        .concat(
+          categoryObservable
         );
     });
 }

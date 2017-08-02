@@ -38,7 +38,7 @@ class ConnectionContainer extends Component {
           onLoginPress={
             (usernameOrEmail: string, password: string) => this.props.login(usernameOrEmail, password)
           }
-          onSubscribePress={() => {}} />
+          onSubscribePress={() => this.props.navigation.navigate('Subscribe')} />
       </View>
     );
   }

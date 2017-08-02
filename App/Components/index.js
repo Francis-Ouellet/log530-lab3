@@ -9,6 +9,7 @@ import HobbyTextInput from './HobbyTextInput';
 import BigRedButton from './BigRedButton';
 import ProfileComponent from './ProfileComponent';
 import EditableProfileComponent from './EditableProfileComponent';
+import SubscribeComponent from './SubscribeComponent';
 
 export {
   CardsComponent,
@@ -20,5 +21,6 @@ export {
   HobbyTextInput,
   BigRedButton,
   ProfileComponent,
-  EditableProfileComponent
+  EditableProfileComponent,
+  SubscribeComponent
 };
