@@ -8,6 +8,7 @@ const MEMBERS = require('./dummy_members.json');
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+export const SUBSCRIBE = 'SUBSCRIBE';
 
 export function login(usernameOrEmail: string, password: string) {
   return {
@@ -20,6 +21,27 @@ export function login(usernameOrEmail: string, password: string) {
 export function logout() {
   return {
     type: LOGOUT
+  };
+}
+
+export function subscribe(
+  firstName: string,
+  lastName: string,
+  city: string,
+  postalCode: string,
+  email: string,
+  username: string,
+  password: string
+) {
+  return {
+    type: SUBSCRIBE,
+    firstName,
+    lastName,
+    city,
+    postalCode,
+    email,
+    username,
+    password
   };
 }
 
@@ -45,6 +67,27 @@ export function loginEpic(action: Object) {
       return Rx.Observable.of(receivedResponse({
         member,
         originAction: LOGIN
+      }));
+    });
+}
+
+export function subscribeEpic(action: Object) {
+  return action.ofType(SUBSCRIBE)
+    .switchMap((action: Object) => {
+      // Add member to system
+      // initialize new Member
+      const member = new Member({
+        firstName: action.firstName,
+        lastName: action.lastName,
+        city: action.city,
+        postalCode: action.postalCode,
+        email: action.email,
+        username: action.username,
+        password: action.password
+      });
+      return Rx.Observable.of(receivedResponse({
+        member,
+        originAction: SUBSCRIBE
       }));
     });
 }
