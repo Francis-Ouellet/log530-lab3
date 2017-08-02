@@ -1,4 +1,5 @@
 // @flow
+// import {Navigation} from 'react-native-navigation';
 import React, {Component} from 'react';  // eslint-disable-line
 import {
   AppRegistry,

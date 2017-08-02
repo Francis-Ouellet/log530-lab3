@@ -9,7 +9,7 @@ import {connect} from 'react-redux';
 
 import {SearchComponent} from '../Components';
 import {search, clearCards, clearMembers} from '../Redux/Actions';
-import {Card} from '../Models';
+import {Card, Member} from '../Models';
 
 import type {ReduxStateType} from '../Redux';
 
@@ -61,6 +61,7 @@ class SearchContainer extends Component {
         <StatusBar barStyle="light-content" />
         <SearchComponent
           onCardItemPress={(card: Card) => this.props.navigation.navigate('SingleCard', {card})}
+          onMemberItemPress={(member: Member) => this.props.navigation.navigate('Profil', {member})}
           members={this.props.members}
           cards={this.props.cards} />
       </View>

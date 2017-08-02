@@ -5,6 +5,8 @@ import SingleCardContainer from './SingleCardContainer';
 import {TAB_NAMES} from './Navigation';
 import ConnectionContainer from './ConnectionContainer';
 import SubscribeContainer from './SubscribeContainer';
+import ProfileContainer from './ProfileContainer';
+import EditProfileContainer from './EditProfileContainer';
 
 export {
   CardsContainer,
@@ -12,5 +14,7 @@ export {
   SingleCardContainer,
   TAB_NAMES,
   ConnectionContainer,
-  SubscribeContainer
+  SubscribeContainer,
+  ProfileContainer,
+  EditProfileContainer
 };

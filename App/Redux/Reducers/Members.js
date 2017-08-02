@@ -4,7 +4,8 @@ import {
   SEARCH,
   RECEIVED_RESPONSE,
   CLEAR_MEMBERS,
-  LOGIN, LOGOUT, SUBSCRIBE
+  LOGIN, LOGOUT, SUBSCRIBE,
+  UPDATING_USER_PROFIL
 } from '../Actions';
 
 export function members(state: Member[] = [], action: {type: Object, data: Object}): Member[] {
@@ -38,5 +39,11 @@ export function currentMember(state: ?Member = null, action: Object): ?Member {
 
     default:
       return state;
+  }
+}
+
+export function updateCurrentMember(state: Member, action: Object): Member {
+  switch (action.type) {
+
   }
 }

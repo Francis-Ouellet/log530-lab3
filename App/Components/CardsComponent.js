@@ -21,7 +21,7 @@ export default class CardsComponent extends Component {
   _renderItem: Function;
   _extractKey: Function;
 
-  static propTypes = {
+  static PropsType = {
     cards: PropTypes.arrayOf(PropTypes.instanceOf(Card)).isRequired,
     onRefresh: PropTypes.func.isRequired,
     refreshing: PropTypes.bool.isRequired,
