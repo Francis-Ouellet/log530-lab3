@@ -70,18 +70,18 @@ export default class SubscribeComponent extends Component {
                 onChangeText={(text: string) => this.setState({lastNameText: text})}
                 autoCorrect={false}
                 style={{marginTop: 10}} />
-              <HobbyTextInput
-                returnKeyType="next"
-                autoCorrect={false}
-                onChangeText={(text: string) => this.setState({cityText: text})}
-                placeholder="Ville"
-                style={{marginTop: 10}} />
-              <HobbyTextInput
-                returnKeyType="next"
-                placeholder="Code postal"
-                onChangeText={(text: string) => this.setState({postalCodeText: text})}
-                autoCorrect={false}
-                style={{marginTop: 10}} />
+              {/*<HobbyTextInput*/}
+                {/*returnKeyType="next"*/}
+                {/*autoCorrect={false}*/}
+                {/*onChangeText={(text: string) => this.setState({cityText: text})}*/}
+                {/*placeholder="Ville"*/}
+                {/*style={{marginTop: 10}} />*/}
+              {/*<HobbyTextInput*/}
+                {/*returnKeyType="next"*/}
+                {/*placeholder="Code postal"*/}
+                {/*onChangeText={(text: string) => this.setState({postalCodeText: text})}*/}
+                {/*autoCorrect={false}*/}
+                {/*style={{marginTop: 10}} />*/}
               <HobbyTextInput
                 returnKeyType="next"
                 placeholder="Courriel"
