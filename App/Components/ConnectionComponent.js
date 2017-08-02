@@ -62,7 +62,6 @@ export default class ConnectionComponent extends Component {
           style={{marginTop: 10}} />
         <BigRedButton
           onPress={() => this.props.onLoginPress(this.state.usernameOrEmail, this.state.password)}
-          title="Go !"
           style={{marginTop: 10}}>
           Go !
         </BigRedButton>

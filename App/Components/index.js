@@ -7,6 +7,7 @@ import ConnectionComponent from './ConnectionComponent';
 import BigRedTitle from './BigRedTitle';
 import HobbyTextInput from './HobbyTextInput';
 import BigRedButton from './BigRedButton';
+import SubscribeComponent from './SubscribeComponent';
 
 export {
   CardsComponent,
@@ -16,5 +17,6 @@ export {
   ConnectionComponent,
   BigRedTitle,
   HobbyTextInput,
-  BigRedButton
+  BigRedButton,
+  SubscribeComponent
 };
