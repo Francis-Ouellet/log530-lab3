@@ -1,5 +1,6 @@
 // @flow
 import React, {Component} from 'react';  // eslint-disable-line
+import {NavigationScreenProp} from 'react-navigation';
 import {
   View,
   StatusBar
@@ -20,16 +21,16 @@ class ProfileContainer extends Component {
     }
 
   render() {
+    const {member} = this.props.navigation.state.params;
     return (
       <View>
         <StatusBar barStyle="light-content" />
-        <ProfileComponent/>
-        <ProfileComponent  member={this.props.member}/>
+        <ProfileComponent  member={this.props.navigation.state.params.member}/>
       </View>
     );
   }
 }
 
 export default connect((state: Object) => ({
-  member: state.actualMember
+  member: state.currentMember
 }))(ProfileContainer);

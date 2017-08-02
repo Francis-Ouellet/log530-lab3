@@ -98,8 +98,16 @@ const ProfileNavigator = StackNavigator({
     screen: ProfileContainer,
     navigationOptions: ({navigation}: {navigation: NavigationScreenProp}) => ({
       headerTitle: TITLES.profil,
-      headerLeft: <CloseButton onPress={() => navigation.goBack(null)} />,
-      headerRight: <TouchableOpacity style={NavigationStyle.profileButton} onPress={() => navigation.goBack(null)/* => props.navigation.navigate('EditProfile')*/} />,
+      headerLeft: (
+                    <TouchableOpacity style={NavigationStyle.profileButton} onPress={() => navigation.goBack(null)}>
+                      <FAIcon name="times-circle" size={25} color={Colors.snow} />
+                    </TouchableOpacity>
+                  ),
+      headerRight: (
+                <TouchableOpacity style={NavigationStyle.profileButton} onPress={() => props.navigation.navigate('EditProfile')}>
+                  <FAIcon name="pencil-square-o" size={25} color={Colors.snow} />
+                </TouchableOpacity>
+              ),
       headerBackTitle: 'Profile',
       tabBarVisible: false
       })

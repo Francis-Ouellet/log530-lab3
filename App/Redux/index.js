@@ -11,13 +11,9 @@ import {
   cards,
   currentMember
 } from './Reducers';
-import {
-  searchEpic,
-  getCardsByCategoryEpic
-} from './Reducers';
 
 import {
-  searchEpic
+  searchEpic,
   getCardsByCategoryEpic,
   loginEpic
 } from './Actions';

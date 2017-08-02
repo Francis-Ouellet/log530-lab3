@@ -21,10 +21,6 @@ import {
   getCardsByCategory, getCardsByCategoryEpic, GET_CARDS_BY_CATEGORY
 } from './Cards';
 import {
-  GETTING_USER_PROFIL, fetchingMemberProfile,
-  UPDATING_USER_PROFIL, editingMemberProfile
-} from './Profile';
-import {
   login, loginEpic, LOGIN,
   logout, LOGOUT
 } from './Login';
@@ -39,8 +35,6 @@ export {
   CLEAR_MEMBERS, clearMembers,
   CLEAR_CARDS, clearCards,
   GET_CARDS_BY_CATEGORY, getCardsByCategory, getCardsByCategoryEpic,
-  GETTING_USER_PROFIL, fetchingMemberProfile,
-  UPDATING_USER_PROFIL, editingMemberProfile,
   LOGIN, login, loginEpic,
   LOGOUT, logout
 };
