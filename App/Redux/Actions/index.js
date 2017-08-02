@@ -18,7 +18,8 @@ import {
 } from './Cards';
 import {
   login, loginEpic, LOGIN,
-  logout, LOGOUT
+  logout, LOGOUT,
+  subscribe, subscribeEpic, SUBSCRIBE
 } from './Login';
 
 export {
@@ -30,5 +31,6 @@ export {
   CLEAR_CARDS, clearCards,
   GET_CARDS_BY_CATEGORY, getCardsByCategory, getCardsByCategoryEpic,
   LOGIN, login, loginEpic,
-  LOGOUT, logout
+  LOGOUT, logout,
+  SUBSCRIBE, subscribe, subscribeEpic
 };
