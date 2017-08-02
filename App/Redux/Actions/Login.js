@@ -77,13 +77,13 @@ export function subscribeEpic(action: Object) {
       // Add member to system
       // initialize new Member
       const member = new Member({
-        firstName: action.firstName,
-        lastName: action.lastName,
-        city: action.city,
-        postalCode: action.postalCode,
-        email: action.email,
-        username: action.username,
-        password: action.password
+        prenom: action.firstName,
+        npm: action.lastName,
+        ville: action.city,
+        codePostal: action.postalCode,
+        courriel: action.email,
+        nomUtilisateur: action.username,
+        motDePasse: action.password
       });
       return Rx.Observable.of(receivedResponse({
         member,
