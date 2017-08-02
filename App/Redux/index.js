@@ -8,7 +8,8 @@ import {Member, Card} from '../Models';
 import {
   isFetching,
   members,
-  cards
+  cards,
+  currentMember
 } from './Reducers';
 import {
   searchEpic,
@@ -19,6 +20,8 @@ import {
 
 import {
   searchEpic
+  getCardsByCategoryEpic,
+  loginEpic
 } from './Actions';
 
 export type ReduxStateType = {
@@ -32,7 +35,7 @@ export type ReduxStateType = {
     baseball: Card[],
     basketball: Card[]
   },
-  actualMember: Member
+  currentMember: ?Member
 };
 
 export default (navigationReducer: Object) => {
@@ -42,17 +45,14 @@ export default (navigationReducer: Object) => {
     isFetching,
     members,
     cards,
-    actualMember: showMember
+    currentMember
   });
 
   /* ------------- Assemble The Epics ------------- */
   const rootEpic = combineEpics(
     searchEpic,
-    getCardsByCategoryEpic
-  });
-
-  const rootEpic = combineEpics(
-    searchEpic
+    getCardsByCategoryEpic,
+    loginEpic
   );
 
   return configureStore(rootReducer, rootEpic);

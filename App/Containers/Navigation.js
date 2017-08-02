@@ -17,7 +17,10 @@ import FAIcon from 'react-native-vector-icons/FontAwesome';
 import {
   CardsContainer,
   SearchContainer,
-  SingleCardContainer
+  SingleCardContainer,
+  ConnectionContainer,
+  ProfileContainer,
+  EditProfileContainer
 } from '.';
 import {Colors} from '../Themes';
 import {Collection} from '../Models';
@@ -46,12 +49,16 @@ const NavigationStyle = StyleSheet.create({
     width: 200,
     borderRadius: 7,
     textAlign: 'center'
+  },
+  blankHeaderStyle: {
+    backgroundColor: Colors.transparent
   }
 });
 const TITLES = {
   cards: 'Fil des cartes',
   search: 'Recherche',
-  close: 'Fermer'
+  close: 'Fermer',
+  profil: 'Profile'
 };
 export const TAB_NAMES = {
   hockey: 'Hockey',
@@ -86,6 +93,53 @@ const SearchNavigator = StackNavigator({
   headerMode: 'screen'
 });
 
+const ProfileNavigator = StackNavigator({
+  Profile: {
+    screen: ProfileContainer,
+    navigationOptions: ({navigation}: {navigation: NavigationScreenProp}) => ({
+      headerTitle: TITLES.profil,
+      headerLeft: <CloseButton onPress={() => navigation.goBack(null)} />,
+      headerRight: <TouchableOpacity style={NavigationStyle.profileButton} onPress={() => navigation.goBack(null)/* => props.navigation.navigate('EditProfile')*/} />,
+      headerBackTitle: 'Profile',
+      tabBarVisible: false
+      })
+  },
+  /*EditProfile: {
+        screen: EditProfileNavigator,
+        navigationOptions: {
+          header: null
+        }
+      }*/
+  },
+  {
+    navigationOptions: {
+      headerStyle: NavigationStyle.header,
+      headerTitleStyle: NavigationStyle.headerTitle,
+      headerTintColor: Colors.snow
+    },
+    headerMode: 'screen'
+  });
+
+  const EditProfileNavigator = StackNavigator({
+    EditProfile: {
+      screen: EditProfileContainer,
+      navigationOptions: ({navigation}: {navigation: NavigationScreenProp}) => ({
+        headerTitle: TITLES.profil,
+        headerLeft: <CloseButton onPress={() => navigation.goBack(null)} />,
+        headerBackTitle: 'EditProfile',
+        tabBarVisible: false
+        })
+      }
+    },
+    {
+      navigationOptions: {
+        headerStyle: NavigationStyle.header,
+        headerTitleStyle: NavigationStyle.headerTitle,
+        headerTintColor: Colors.snow
+      },
+      headerMode: 'screen'
+    });
+
 const CardsNavigator = StackNavigator({
   Cards: {
     screen: CardsContainer,
@@ -93,7 +147,7 @@ const CardsNavigator = StackNavigator({
       return {
         title: TITLES.cards,
         headerLeft: (
-          <TouchableOpacity style={NavigationStyle.profileButton} onPress={() => {}}>
+          <TouchableOpacity style={NavigationStyle.profileButton} onPress={() => props.navigation.navigate('Login')}>
             <FAIcon name="user-circle-o" size={25} color={Colors.snow} />
           </TouchableOpacity>
         ),
@@ -111,7 +165,26 @@ const CardsNavigator = StackNavigator({
     navigationOptions: {
       header: null
     }
-  }
+  },
+  Login: {
+    screen: ConnectionContainer,
+    navigationOptions: (props: Object) => ({
+      headerTitle: null,
+      headerStyle: NavigationStyle.blankHeaderStyle,
+      headerLeft: (
+        <TouchableOpacity style={{marginLeft: 10}} onPress={() => props.navigation.goBack(null)}>
+          <FAIcon name="times-circle" size={40} color="black" />
+        </TouchableOpacity>
+      ),
+      tabBarVisible: false
+    })
+  },
+  Profil: {
+      screen: ProfileNavigator,
+      navigationOptions: {
+        header: null
+      }
+    }
 }, {
   navigationOptions: {
     headerStyle: NavigationStyle.header,

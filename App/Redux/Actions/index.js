@@ -20,6 +20,10 @@ import {
   GETTING_USER_PROFIL, fetchingMemberProfile,
   UPDATING_USER_PROFIL, editingMemberProfile
 } from './Profile';
+import {
+  login, loginEpic, LOGIN,
+  logout, LOGOUT
+} from './Login';
 
 export {
   FETCHING_FROM_SERVER, fetchingFromServer,
@@ -30,5 +34,7 @@ export {
   CLEAR_CARDS, clearCards,
   GET_CARDS_BY_CATEGORY, getCardsByCategory, getCardsByCategoryEpic,
   GETTING_USER_PROFIL, fetchingMemberProfile,
-  UPDATING_USER_PROFIL, editingMemberProfile
+  UPDATING_USER_PROFIL, editingMemberProfile,
+  LOGIN, login, loginEpic,
+  LOGOUT, logout
 };

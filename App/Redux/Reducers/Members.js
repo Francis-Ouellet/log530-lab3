@@ -3,7 +3,8 @@ import {Member} from '../../Models';
 import {
   SEARCH,
   RECEIVED_RESPONSE,
-  CLEAR_MEMBERS
+  CLEAR_MEMBERS,
+  LOGIN, LOGOUT
 } from '../Actions';
 
 export function members(state: Member[] = [], action: {type: Object, data: Object}): Member[] {
@@ -22,10 +23,17 @@ export function members(state: Member[] = [], action: {type: Object, data: Objec
   }
 }
 
-export function showMember(state: Object = MEMBERS[1], action: any) : Member {
-  return state;
-}
+export function currentMember(state: ?Member = null, action: Object): ?Member {
+  switch (action.type) {
+    case RECEIVED_RESPONSE:
+      if (action.data.originAction && action.data.originAction === LOGIN) {
+        return action.data.member;
+      }
 
-export function editMember(newMember : Member) : Member {
+    case LOGOUT:
+      return null;
 
+    default:
+      return state;
+  }
 }

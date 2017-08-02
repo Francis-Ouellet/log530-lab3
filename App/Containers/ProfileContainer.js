@@ -5,15 +5,25 @@ import {
   StatusBar
 } from 'react-native';
 import {connect} from 'react-redux';
+import {Member} from '../Models';
+import type {ReduxStateType} from '../Redux';
+import {ProfileComponent} from '../Components';
 
-import {ProfilComponent} from '../Components';
+type PropsType = {
+    member: Member
+  };
 
 class ProfileContainer extends Component {
+  props: PropsType;
+  constructor(props: PropsType) {
+      super(props);
+    }
+
   render() {
     return (
       <View>
         <StatusBar barStyle="light-content" />
-        <ProfileComponent  member={this.props.member}/>
+        <ProfileComponent/>
       </View>
     );
   }
