@@ -3,56 +3,69 @@
 import React, {Component} from 'react';  // eslint-disable-line
 import {
   AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  Platform
+  Platform,
 } from 'react-native';
+import {addNavigationHelpers} from 'react-navigation';
+import {connect, Provider} from 'react-redux';
 
-class HobbyCartes extends Component {
+import applyConfigSettings from '../Config';
+import createStore from '../Redux';
+import {BaseNavigatorIOS, BaseNavigatorAndroid} from './Navigation';
+
+// Apply app settings
+applyConfigSettings();
+
+const RootNavigator = Platform.OS === 'ios' ? BaseNavigatorIOS : BaseNavigatorAndroid;
+
+function navigationReducer(state: Object, action: Object) {
+  const newState = RootNavigator.router.getStateForAction(action, state);
+  return newState || state;
+}
+
+// create the Redux store
+const [store] = createStore(navigationReducer);
+export {store};
+
+class RootContainer extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.{Platform.OS}.js
-        </Text>
-      </View>
+      <RootNavigator navigation={addNavigationHelpers({
+        dispatch: this.props.dispatch,
+        state: this.props.nav
+      })} />
+    );
+  }
+}
+RootContainer = connect((state: Object) => ({
+  nav: state.nav
+}))(RootContainer);
+
+class AppContainer extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <RootContainer />
+      </Provider>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
+/**
+ * Class that serves as a wrapper. This is useful for testing because tests will
+ * fail if AppRegistry.registerComponent() is called.
+ *
+ * @class Runner
+ */
 class Runner {
   constructor() {
-    AppRegistry.registerComponent('HobbyCartes', () => HobbyCartes);
+    AppRegistry.registerComponent('HobbyCartes', () => AppContainer);
   }
 }
 
 let App;
 
-if (global.__TEST__) {
-  App = HobbyCartes;
+if (global.__TEST__) {  // __TEST__ is defined in package.json
+  App = AppContainer;
 } else {
   App = Runner;
 }
